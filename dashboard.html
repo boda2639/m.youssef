@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta
+        name="description"
+        content="استعرض كورسات مستر محمد يوسف التعليمية وابدأ رحلة التعلم."
+    >
+
+    <title>الكورسات | منصة مستر محمد يوسف</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+>
+
+<link
+    rel="stylesheet"
+    href="navbar.css"
+>
+
+    <!-- Dashboard CSS -->
+    <link rel="stylesheet" href="dashboard.css">
+</head>
+
+<body>
+    <div id="navbar-container"></div>
+
+    
+
+
+
+
+
+        <!-- Search -->
+        <div class="search-container">
+
+            <i class="fa-solid fa-magnifying-glass"></i>
+
+            <input
+                type="search"
+                id="courseSearch"
+                placeholder="ابحث عن اسم الكورس أو المادة..."
+                autocomplete="off"
+                aria-label="البحث عن كورس"
+            >
+
+        </div>
+
+    </section>
+
+
+    <!-- =========================
+          COURSES SECTION
+    ========================== -->
+    <main
+        class="courses-section"
+        id="courses"
+    >
+
+        <div class="section-heading">
+
+            <div class="section-title">
+
+                <span class="mini-title">
+                    ابدأ رحلتك التعليمية
+                </span>
+
+                <h2>
+                    الكورسات المتاحة
+                </h2>
+
+            </div>
+
+
+            <div
+                class="courses-count"
+                id="coursesCount"
+                aria-live="polite"
+            >
+                جاري تحميل الكورسات...
+            </div>
+
+        </div>
+
+
+        <!-- Loading -->
+        <div
+            class="loading-box"
+            id="loadingBox"
+            aria-live="polite"
+        >
+            <div class="loading-icon">
+                <i class="fa-solid fa-spinner fa-spin"></i>
+            </div>
+
+            <span>
+                جاري تحميل الكورسات...
+            </span>
+        </div>
+
+
+        <!-- Courses From Firebase -->
+        <div
+            class="courses-grid"
+            id="coursesContainer"
+        ></div>
+
+
+        <!-- Empty State -->
+        <div
+            class="empty-state"
+            id="emptyState"
+        >
+            <div class="empty-icon">
+                <i class="fa-solid fa-book-open"></i>
+            </div>
+
+            <h3>
+                لا توجد كورسات حاليًا
+            </h3>
+
+            <p>
+                سيتم إضافة الكورسات الجديدة قريبًا.
+            </p>
+        </div>
+
+    </main>
+
+
+    <!-- JavaScript -->
+    <script
+        type="module"
+        src="dashboard.js"
+    ></script>
+<script src="navbar.js"></script>
+</body>
+
+</html>

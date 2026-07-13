@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0"
+    >
+
+    <title>الملف الشخصي | منصة مستر محمد يوسف</title>
+
+    <!-- Google Font -->
+    <link
+        rel="preconnect"
+        href="https://fonts.googleapis.com"
+    >
+
+    <link
+        rel="preconnect"
+        href="https://fonts.gstatic.com"
+        crossorigin
+    >
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+
+    <!-- Profile CSS -->
+    <link
+        rel="stylesheet"
+        href="profile.css"
+    >
+
+</head>
+
+
+<body>
+
+
+    <!-- =====================================
+         BACKGROUND
+    ====================================== -->
+
+    <div class="background"></div>
+
+
+    <!-- =====================================
+         HEADER
+    ====================================== -->
+
+    <header class="header">
+
+        <a
+            href="dashboard.html"
+            class="logo"
+        >
+
+            <i class="fa-solid fa-atom"></i>
+
+            <span>
+                M.YOUSSEF
+            </span>
+
+        </a>
+
+
+        <a
+            href="dashboard.html"
+            class="back-btn"
+        >
+
+            <i class="fa-solid fa-arrow-right"></i>
+
+            <span>
+                العودة للرئيسية
+            </span>
+
+        </a>
+
+    </header>
+
+
+
+    <!-- =====================================
+         MAIN PAGE
+    ====================================== -->
+
+    <main class="profile-page">
+
+
+        <!-- =================================
+             PAGE TITLE
+        ================================== -->
+
+        <section class="page-heading">
+
+            <span class="small-title">
+                حساب الطالب
+            </span>
+
+            <h1>
+                الملف الشخصي
+            </h1>
+
+            <p>
+                جميع بيانات حسابك على منصة مستر محمد يوسف
+            </p>
+
+        </section>
+
+
+
+        <!-- =================================
+             LOADING
+        ================================== -->
+
+        <section
+            class="loading-box"
+            id="loadingBox"
+        >
+
+            <div class="loader"></div>
+
+            <p>
+                جاري تحميل بيانات حسابك...
+            </p>
+
+        </section>
+
+
+
+        <!-- =================================
+             ERROR
+        ================================== -->
+
+        <section
+            class="error-box hidden"
+            id="errorBox"
+        >
+
+            <div class="error-icon">
+
+                <i class="fa-solid fa-triangle-exclamation"></i>
+
+            </div>
+
+            <div>
+
+                <h3>
+                    تعذر تحميل البيانات
+                </h3>
+
+                <p id="errorText">
+                    حدث خطأ أثناء تحميل بيانات الحساب.
+                </p>
+
+            </div>
+
+        </section>
+
+
+
+        <!-- =================================
+             PROFILE CONTENT
+        ================================== -->
+
+        <section
+            class="profile-content hidden"
+            id="profileContent"
+        >
+
+
+            <!-- =============================
+                 PROFILE CARD
+            ============================== -->
+
+            <div class="profile-card">
+
+
+                <!-- PROFILE TOP -->
+
+                <div class="profile-top">
+
+
+                    <!-- AVATAR -->
+
+                    <div class="avatar-wrapper">
+
+                        <div class="student-avatar">
+
+                            <i class="fa-solid fa-user-graduate"></i>
+
+                        </div>
+
+
+                        <span class="online-dot"></span>
+
+                    </div>
+
+
+
+                    <!-- STUDENT INFO -->
+
+                    <div class="student-main-info">
+
+                        <span class="student-badge">
+
+                            <i class="fa-solid fa-graduation-cap"></i>
+
+                            طالب بالمنصة
+
+                        </span>
+
+
+                        <h2 id="studentName">
+                            اسم الطالب
+                        </h2>
+
+
+                        <p id="studentGrade">
+                            الصف الدراسي
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <!-- =============================
+                     ACCOUNT STATUS
+                ============================== -->
+
+                <div class="account-status">
+
+                    <div class="status-icon">
+
+                        <i class="fa-solid fa-circle-check"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <span>
+                            حالة الحساب
+                        </span>
+
+                        <strong id="accountStatus">
+                            نشط
+                        </strong>
+
+                    </div>
+
+                </div>
+
+
+            </div>
+
+
+
+            <!-- =================================
+                 INFORMATION GRID
+            ================================== -->
+
+            <div class="information-section">
+
+
+                <div class="section-title">
+
+                    <div class="section-icon">
+
+                        <i class="fa-solid fa-address-card"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h2>
+                            بيانات الطالب
+                        </h2>
+
+                        <p>
+                            المعلومات المسجلة في حسابك
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <div class="info-grid">
+
+
+                    <!-- STUDENT NAME -->
+
+                    <div class="info-card">
+
+                        <div class="info-icon">
+
+                            <i class="fa-solid fa-user"></i>
+
+                        </div>
+
+
+                        <div class="info-content">
+
+                            <span>
+                                اسم الطالب
+                            </span>
+
+                            <strong id="profileName">
+                                جاري التحميل...
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- EMAIL -->
+
+                    <div class="info-card">
+
+                        <div class="info-icon">
+
+                            <i class="fa-solid fa-envelope"></i>
+
+                        </div>
+
+
+                        <div class="info-content">
+
+                            <span>
+                                البريد الإلكتروني
+                            </span>
+
+                            <strong id="studentEmail">
+                                جاري التحميل...
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- PHONE -->
+
+                    <div class="info-card">
+
+                        <div class="info-icon">
+
+                            <i class="fa-solid fa-phone"></i>
+
+                        </div>
+
+
+                        <div class="info-content">
+
+                            <span>
+                                رقم الهاتف
+                            </span>
+
+                            <strong id="studentPhone">
+                                غير مضاف
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- STUDENT CODE -->
+
+                    <div class="info-card">
+
+                        <div class="info-icon">
+
+                            <i class="fa-solid fa-id-card"></i>
+
+                        </div>
+
+
+                        <div class="info-content">
+
+                            <span>
+                                كود الطالب
+                            </span>
+
+                            <strong id="studentCode">
+                                غير مضاف
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- GRADE -->
+
+                    <div class="info-card">
+
+                        <div class="info-icon">
+
+                            <i class="fa-solid fa-school"></i>
+
+                        </div>
+
+
+                        <div class="info-content">
+
+                            <span>
+                                الصف الدراسي
+                            </span>
+
+                            <strong id="profileGrade">
+                                غير محدد
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+
+                    <!-- DEVICE -->
+
+                    <div class="info-card">
+
+                        <div class="info-icon">
+
+                            <i class="fa-solid fa-laptop"></i>
+
+                        </div>
+
+
+                        <div class="info-content">
+
+                            <span>
+                                حالة الجهاز
+                            </span>
+
+                            <strong id="deviceStatus">
+                                الجهاز الحالي معتمد
+                            </strong>
+
+                        </div>
+
+                    </div>
+
+
+                </div>
+
+            </div>
+
+
+
+            <!-- =================================
+                 ACCOUNT ACTIONS
+            ================================== -->
+
+            <div class="account-actions">
+
+
+                <div class="actions-text">
+
+                    <div class="section-icon">
+
+                        <i class="fa-solid fa-shield-halved"></i>
+
+                    </div>
+
+
+                    <div>
+
+                        <h3>
+                            إدارة الحساب
+                        </h3>
+
+                        <p>
+                            يمكنك تسجيل الخروج من حسابك على هذا الجهاز
+                        </p>
+
+                    </div>
+
+                </div>
+
+
+
+                <button
+                    type="button"
+                    class="logout-btn"
+                    id="logoutBtn"
+                >
+
+                    <i class="fa-solid fa-right-from-bracket"></i>
+
+                    <span>
+                        تسجيل الخروج
+                    </span>
+
+                </button>
+
+
+            </div>
+
+
+        </section>
+
+
+    </main>
+
+
+
+    <!-- =====================================
+         FIREBASE PROFILE JAVASCRIPT
+    ====================================== -->
+
+    <script
+        type="module"
+        src="profile.js"
+    ></script>
+
+
+</body>
+
+</html>

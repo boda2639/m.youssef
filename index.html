@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>منصة مستر محمد يوسف | للفيزياء الحديثة</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        /* تطبيق خط Almarai الجديد على جميع عناصر الموقع */
+        body, h1, h2, h3, p, a, div, span, button {
+            font-family: 'Almarai', sans-serif !important;
+        }
+
+        /* تكبير المشهد الفيزيائي لاستيعاب الأحجام الجديدة */
+        .physics-scene {
+            width: 500px !important; 
+            height: 500px !important;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+        }
+
+        /* تكبير الدوائر/المدارات الزرقاء */
+        .atom-orbit-overlay, 
+        .atom-orbit-overlay-2, 
+        .main-spinner {
+            width: 450px !important; 
+            height: 450px !important;
+            position: absolute;
+        }
+
+        /* تكبير الحاوية الخاصة بصورة المدرس */
+        .center-teacher-image {
+            width: 350px !important; 
+            height: 350px !important;
+            position: absolute;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* تكبير الصورة لتملأ الحاوية بالكامل */
+        .teacher-img {
+            width: 100% !important;
+            height: 100% !important;
+            object-fit: contain;
+        }
+    </style>
+
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+</head>
+<body>
+
+    <div class="announcement-bar">
+        <i class="fa-solid fa-graduation-cap" style="margin-left: 8px;"></i> باب الاشتراك والتسجيل للعام الدراسي الجديد مفتوح الآن بخصومات حصرية لجميع المحافظات!
+    </div>
+
+    <header>
+        <div class="logo-area">
+            <div class="logo-icon"><i class="fa-solid fa-atom"></i></div>
+            <div class="logo-text">M.YOUSSEF</div>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#">الرئيسية</a></li>
+                <li><a href="#features">المنظومة التعليمية</a></li>
+                <li><a href="#courses">المناهج</a></li>
+            </ul>
+        </nav>
+        <div class="left-header-options">
+            <button class="theme-toggle-btn" id="themeToggle">
+                <i class="fa-solid fa-moon"></i>
+            </button>
+            <a href="login.html" class="cta-nav">بوابة الطالب</a>
+        </div>
+    </header>
+
+    <section class="hero-section">
+        <div class="hero-content">
+            <div class="hero-tag">
+                <i class="fa-solid fa-atom"></i> أكاديمية مستر محمد يوسف للفيزياء
+            </div>
+            <h1 class="hero-title">افهم فيزياء بأسلوب <span>عالمي متطور</span></h1>
+            <p class="hero-desc">معادلة التفوق لم تعد سراً. ندمج لك جودة الشرح البصري بأدوات المتابعة الذكية لنضمن لك استيعاب المنهج والتربع على عرش الدرجات النهائية.</p>
+            <div class="hero-actions">
+                <a href="login.html" class="btn-fill">اختر صفك الدراسي</a>
+                <a href="#features" class="btn-outline">اكتشف مميزاتنا</a>
+            </div>
+        </div>
+        
+        <div class="hero-visual">
+            <div class="physics-scene">
+                <div class="main-spinner"></div>
+                <div class="atom-orbit-overlay"></div>
+                <div class="atom-orbit-overlay-2"></div>
+                
+                <div class="center-teacher-image">
+                    <img src="https://i.ibb.co/b5zzLb1H/file-000000134c71f4b5bd1bf146217f9f.png" alt="مستر محمد يوسف" class="teacher-img">
+                </div>
+                
+                <div class="floating-element eq-1">\(V = I \times R\)</div>
+                <div class="floating-element eq-2">\(E = m \cdot c^2\)</div>
+                <div class="floating-element eq-3">\(F = m \cdot a\)</div>
+                <div class="floating-element eq-4">\(\lambda = \frac{h}{p}\)</div>
+                
+                <div class="floating-element sym-1"><i class="fa-solid fa-bolt"></i> \(\rho_e\)</div>
+                <div class="floating-element sym-2"><i class="fa-solid fa-wave-square"></i> \(\Phi_m\)</div>
+                
+                <div class="icon-float-1"><i class="fa-solid fa-magnet"></i></div>
+                <div class="icon-float-2"><i class="fa-solid fa-gauge-high"></i></div>
+            </div>
+        </div>
+    </section>
+
+    <div class="stats-section">
+        <div class="stat-item">
+            <div class="stat-number">+15K</div>
+            <div class="stat-label">طالب نشط بالمنصة</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">+12</div>
+            <div class="stat-label">سنة من الخبرة التعليمية</div>
+        </div>
+        <div class="stat-item">
+            <div class="stat-number">100%</div>
+            <div class="stat-label">تغطية شاملة لأفكار الامتحانات</div>
+        </div>
+    </div>
+
+    <section id="features" class="main-pad">
+        <div class="section-header">
+            <h2>ركائز تفوقك في النظام الحديث</h2>
+            <p>منظومة ذكية متكاملة ترشدك من مرحلة الفهم المبدئي وحتى ليلة الامتحان</p>
+        </div>
+        <div class="cards-grid">
+            <div class="premium-card">
+                <div class="card-icon-box"><i class="fa-solid fa-video"></i></div>
+                <h3>شرح تفاعلي وبصري</h3>
+                <p>توضيح التجارب الفيزيائية عبر محاكاة حركية متطورة لتتمكن من استيعاب القوانين بدلاً من الحفظ.</p>
+            </div>
+            <div class="premium-card">
+                <div class="card-icon-box"><i class="fa-solid fa-brain"></i></div>
+                <h3>بنك أسئلة متجدد</h3>
+                <p>آلاف الأسئلة المتدرجة المستوحاة مباشرة من نواتج تعلم امتحانات الوزارة السابقة والحديثة.</p>
+            </div>
+            <div class="premium-card">
+                <div class="card-icon-box"><i class="fa-solid fa-chart-line"></i></div>
+                <h3>متابعة وتقييم فوري</h3>
+                <p>امتحانات إلكترونية دورية، مع إرسال تقارير نصية فورية لولي الأمر لمتابعة الغياب والدرجات أولاً بأول.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="courses" class="main-pad" style="background: var(--bg-cards-grid);">
+        <div class="section-header">
+            <h2>اختر مرحلتك التعليمية وابدأ فوراً</h2>
+            <p>محتوى أكاديمي منظم ومقسّم بعناية ليناسب الفروق الفردية ويحقق أعلى مستويات الاستيعاب</p>
+        </div>
+        <div class="cards-grid">
+            <div class="course-card-v2">
+                <div class="course-head">
+                    <div class="course-badge">دفعة 2026</div>
+                    <div class="course-title-sub">الأول الثانوي</div>
+                </div>
+                <div class="course-body">
+                    <p>أساسيات علم الفيزياء والقياس، معادلات الحركة المنتظمة، السقوط الحر والمقذوفات، وقوانين نيوتن للحركة.</p>
+                    <div class="course-meta">
+                        <div class="meta-info"><i class="fa-solid fa-play"></i> 25 محاضرة</div>
+                        <div class="meta-info"><i class="fa-regular fa-calendar"></i> متاح بالكامل</div>
+                    </div>
+                    <a href="login.html" class="course-action-btn">استكشف المنهج</a>
+                </div>
+            </div>
+
+            <div class="course-card-v2">
+                <div class="course-head">
+                    <div class="course-badge">دفعة 2026</div>
+                    <div class="course-title-sub">الثاني الثانوي</div>
+                </div>
+                <div class="course-body">
+                    <p>دراسة الحركات الاهتزازية والموجية، هندسة الضوء والمنشور، وقوانين الضغط والموائع الساكنة والمتحركة.</p>
+                    <div class="course-meta">
+                        <div class="meta-info"><i class="fa-solid fa-play"></i> 32 محاضرة</div>
+                        <div class="meta-info"><i class="fa-regular fa-calendar"></i> متاح بالكامل</div>
+                    </div>
+                    <a href="login.html" class="course-action-btn">استكشف المنهج</a>
+                </div>
+            </div>
+
+            <div class="course-card-v2">
+                <div class="course-head">
+                    <div class="course-badge" style="background: var(--accent-orange); color: white;">الأعلى طلباً</div>
+                    <div class="course-title-sub">الثالث الثانوي</div>
+                </div>
+                <div class="course-body">
+                    <p>المنهج الكامل: الفيزياء الكهربية، الحديثة، وقوانين كيرشوف، التأثير المغناطيسي، دينامو التيار والكم.</p>
+                    <div class="course-meta">
+                        <div class="meta-info"><i class="fa-solid fa-play"></i> 55 محاضرة</div>
+                        <div class="meta-info"><i class="fa-solid fa-bolt"></i> نظام مكثف</div>
+                    </div>
+                    <a href="login.html" class="course-action-btn">استكشف المنهج</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="footer-content">
+            <div class="logo-area">
+                <div class="logo-text">M.YOUSSEF</div>
+            </div>
+            <div class="social-links">
+                <a href="#" class="social-icon"><i class="fa-brands fa-facebook-f"></i></a>
+                <a href="#" class="social-icon"><i class="fa-brands fa-youtube"></i></a>
+                <a href="#" class="social-icon"><i class="fa-brands fa-whatsapp"></i></a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>جميع الحقوق محفوظة © 2026 لمنصة مستر محمد يوسف للفيزياء • تم التطوير بأعلى معايير الحركات والتأثيرات التفاعلية الحديثة.</p>
+        </div>
+    </footer>
+
+    <script>
+        const themeToggleBtn = document.getElementById('themeToggle');
+        if(themeToggleBtn) {
+            themeToggleBtn.addEventListener('click', () => {
+                const currentTheme = document.documentElement.getAttribute('data-theme');
+                const targetTheme = currentTheme === 'dark' ? 'light' : 'dark';
+                document.documentElement.setAttribute('data-theme', targetTheme);
+                const toggleIcon = themeToggleBtn.querySelector('i');
+                toggleIcon.className = targetTheme === 'dark' ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+            });
+        }
+    </script>
+  <script type="module">
+    import { db } from './firebase-config.js'; 
+    import { collection, getDocs } from "https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore.js";
+
+    async function loadCourses() {
+        try {
+            console.log("جاري الاتصال بـ Firebase...");
+            const querySnapshot = await getDocs(collection(db, "courses"));
+            
+            if (querySnapshot.empty) {
+                console.log("قاعدة البيانات فارغة، لا يوجد كورسات!");
+            } else {
+                querySnapshot.forEach((doc) => {
+                    console.log("تم العثور على كورس: ", doc.data());
+                });
+            }
+        } catch (error) {
+            console.error("حدث خطأ أثناء الاتصال: ", error);
+        }
+    }
+
+    loadCourses();
+</script>  
+</body>
+</html>

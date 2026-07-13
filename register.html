@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl" data-theme="dark">
+
+<head>
+
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>إنشاء حساب جديد | منصة مستر محمد يوسف</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="register.css">
+    <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+>
+
+<link
+    rel="stylesheet"
+    href="navbar.css"
+>
+
+</head>
+
+<body>
+    <div id="navbar-container"></div>
+
+    <!-- الخلفية -->
+
+    <div class="background"></div>
+
+    <!-- الهيدر -->
+
+    <header class="header">
+
+        <a href="index.html" class="logo">
+
+            <i class="fa-solid fa-atom"></i>
+
+            <span>M.YOUSSEF</span>
+
+        </a>
+
+        <nav>
+
+            <a href="index.html">الرئيسية</a>
+
+            <a href="login.html">تسجيل الدخول</a>
+
+        </nav>
+
+    </header>
+
+    <!-- الكارت -->
+
+    <section class="register-section">
+
+        <div class="register-card">
+
+            <!-- العنوان -->
+
+            <div class="form-header">
+
+                <div class="header-icon">
+
+                    <i class="fa-solid fa-user-plus"></i>
+
+                </div>
+
+                <h1>إنشاء حساب جديد</h1>
+
+                <p>
+
+                    انضم إلى منصة مستر محمد يوسف التعليمية وأكمل بياناتك بدقة.
+
+                </p>
+
+            </div>
+
+            <!-- الفورم -->
+
+            <form id="registerForm">
+
+                <div class="form-grid">
+
+                    <!-- الاسم -->
+
+                    <div class="input-group full">
+
+                        <label>
+
+                            الاسم الرباعي
+
+                            <span>*</span>
+
+                        </label>
+
+                        <div class="input-box">
+
+                            <i class="fa-solid fa-user"></i>
+
+                            <input
+
+                                type="text"
+
+                                id="fullName"
+
+                                placeholder="اكتب الاسم الرباعي"
+
+                                required>
+
+                        </div>
+
+                    </div>
+
+                    <!-- البريد -->
+
+                    <div class="input-group">
+
+                        <label>
+
+                            البريد الإلكتروني
+
+                            <span>*</span>
+
+                        </label>
+
+                        <div class="input-box">
+
+                            <i class="fa-solid fa-envelope"></i>
+
+                            <input
+
+                                type="email"
+
+                                id="email"
+
+                                placeholder="example@gmail.com"
+
+                                required>
+
+                        </div>
+
+                    </div>
+
+                    <!-- الصف -->
+
+                    <div class="input-group">
+
+                        <label>
+
+                            الصف الدراسي
+
+                            <span>*</span>
+
+                        </label>
+
+                        <div class="input-box">
+
+                            <i class="fa-solid fa-graduation-cap"></i>
+
+                            <select id="grade" required>
+
+                                <option value="">اختر الصف الدراسي</option>
+
+                                <option>الصف الأول الثانوي</option>
+
+                                <option>الصف الثاني الثانوي</option>
+
+                                <option>الصف الثالث الثانوي</option>
+
+                            </select>
+
+                        </div>
+
+                    </div>
+
+                    <!-- كلمة المرور -->
+
+                    <div class="input-group">
+
+                        <label>
+
+                            كلمة المرور
+
+                            <span>*</span>
+
+                        </label>
+
+                        <div class="input-box">
+
+                            <i class="fa-solid fa-lock"></i>
+
+                            <input
+
+                                type="password"
+
+                                id="password"
+
+                                required>
+
+                            <i
+
+                                class="fa-solid fa-eye toggle-password"
+
+                                data-target="password">
+
+                            </i>
+
+                        </div>
+
+                    </div>
+
+                    <!-- تأكيد -->
+
+                    <div class="input-group">
+
+                        <label>
+
+                            تأكيد كلمة المرور
+
+                            <span>*</span>
+
+                        </label>
+
+                        <div class="input-box">
+
+                            <i class="fa-solid fa-lock"></i>
+
+                            <input
+
+                                type="password"
+
+                                id="confirmPassword"
+
+                                required>
+
+                            <i
+
+                                class="fa-solid fa-eye toggle-password"
+
+                                data-target="confirmPassword">
+
+                            </i>
+
+                        </div>
+
+                    </div>
+                    <!-- رقم الطالب -->
+
+<div class="input-group">
+
+    <label>
+
+        رقم هاتف الطالب (واتساب)
+
+        <span>*</span>
+
+    </label>
+
+
+    <div class="input-box">
+
+        <i class="fa-brands fa-whatsapp"></i>
+
+        <input
+
+            type="tel"
+
+            id="studentPhone"
+
+            placeholder="01xxxxxxxxx"
+
+            required>
+
+    </div>
+
+</div>
+
+
+
+
+<!-- رقم ولي الأمر -->
+
+<div class="input-group">
+
+    <label>
+
+        رقم هاتف ولي الأمر
+
+        <span>*</span>
+
+    </label>
+
+
+    <div class="input-box">
+
+        <i class="fa-solid fa-phone"></i>
+
+        <input
+
+            type="tel"
+
+            id="parentPhone"
+
+            placeholder="01xxxxxxxxx"
+
+            required>
+
+    </div>
+
+</div>
+
+
+
+
+
+<!-- وظيفة ولي الأمر -->
+
+<div class="input-group full">
+
+
+    <label>
+
+        وظيفة ولي الأمر
+
+        <span>*</span>
+
+    </label>
+
+
+    <div class="input-box">
+
+
+        <i class="fa-solid fa-briefcase"></i>
+
+
+        <input
+
+            type="text"
+
+            id="parentJob"
+
+            placeholder="مثال: مهندس - مدرس - موظف"
+
+            required>
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+<!-- المحافظة -->
+
+
+<div class="input-group">
+
+
+    <label>
+
+        المحافظة
+
+        <span>*</span>
+
+    </label>
+
+
+    <div class="input-box">
+
+
+        <i class="fa-solid fa-location-dot"></i>
+
+
+        <select id="governorate" required>
+
+
+            <option value="">
+
+                اختر المحافظة
+
+            </option>
+
+
+        </select>
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+<!-- المدينة -->
+
+
+<div class="input-group">
+
+
+    <label>
+
+        المركز / المدينة
+
+        <span>*</span>
+
+    </label>
+
+
+    <div class="input-box">
+
+
+        <i class="fa-solid fa-city"></i>
+
+
+        <select id="city" disabled required>
+
+
+            <option value="">
+
+                اختر المحافظة أولاً
+
+            </option>
+
+
+        </select>
+
+
+    </div>
+
+
+</div>
+
+
+
+
+
+</div>
+
+
+
+
+
+<!-- رسالة الخطأ -->
+
+
+<div
+
+class="error-message"
+
+id="errorMessage">
+
+</div>
+
+
+
+
+
+<!-- زر التسجيل -->
+
+
+<button
+
+type="submit"
+
+class="submit-btn">
+
+
+<i class="fa-solid fa-user-plus"></i>
+
+
+إنشاء الحساب وإرسال البيانات
+
+
+</button>
+
+
+
+
+
+</form>
+
+
+
+</div>
+
+
+
+</section>
+
+
+
+
+
+
+
+<script src="register.js"></script> 
+
+<script src="navbar.js"></script>
+
+</body>
+
+
+</html>

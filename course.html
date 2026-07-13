@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
+
+    <title>محتوى الكورس | منصة مستر محمد يوسف</title>
+
+    <!-- Google Font -->
+    <link rel="preconnect"
+          href="https://fonts.googleapis.com">
+
+    <link rel="preconnect"
+          href="https://fonts.gstatic.com"
+          crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&display=swap"
+        rel="stylesheet"
+    >
+
+    <!-- Font Awesome -->
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
+
+    <!-- CSS -->
+    <link rel="stylesheet"
+          href="courses.css">
+          
+
+</head>
+
+
+<body>
+
+
+    <!-- ==============================
+                BACKGROUND
+    =============================== -->
+
+    <div class="background"></div>
+
+
+    <!-- ==============================
+                  HEADER
+    =============================== -->
+
+    <header class="header">
+
+
+        <a href="index.html"
+           class="logo">
+
+            <i class="fa-solid fa-atom"></i>
+
+            <span>
+                M.YOUSSEF
+            </span>
+
+        </a>
+
+
+        <a href="dashboard.html"
+           class="back-btn">
+
+            <i class="fa-solid fa-arrow-right"></i>
+
+            <span>
+                رجوع
+            </span>
+
+        </a>
+
+
+    </header>
+
+
+
+    <!-- ==============================
+                MAIN PAGE
+    =============================== -->
+
+    <main class="course-page">
+
+
+        <!-- ==========================
+                  LOADING
+        =========================== -->
+
+        <div
+            id="loadingBox"
+            class="loading-box"
+        >
+
+            <div class="loader"></div>
+
+            <p>
+                جاري تحميل محتوى الكورس...
+            </p>
+
+        </div>
+
+
+
+        <!-- ==========================
+                 ERROR BOX
+        =========================== -->
+
+        <div
+            id="errorBox"
+            class="error-box hidden"
+        >
+
+            <div class="error-icon">
+
+                <i class="fa-solid fa-triangle-exclamation"></i>
+
+            </div>
+
+
+            <h2>
+                تعذر تحميل الكورس
+            </h2>
+
+
+            <p id="errorText">
+                حدث خطأ أثناء تحميل بيانات الكورس.
+            </p>
+
+
+            <a href="dashboard.html">
+
+                <i class="fa-solid fa-arrow-right"></i>
+
+                العودة إلى الكورسات
+
+            </a>
+
+        </div>
+
+
+
+        <!-- ==========================
+               COURSE CONTENT
+        =========================== -->
+
+        <div
+            id="courseContent"
+            class="course-content hidden"
+        >
+
+
+            <!-- ======================
+                   COURSE HEADER
+            ======================= -->
+
+            <section class="course-header-section">
+
+
+                <div class="course-status">
+
+                    <i class="fa-solid fa-circle-check"></i>
+
+                    <span>
+                        محتوى الكورس
+                    </span>
+
+                </div>
+
+
+                <h1 id="courseTitle">
+
+                    اسم الكورس
+
+                </h1>
+
+
+                <p id="courseDescription">
+
+                    شاهد فيديوهات الكورس وحمّل ملفات الشرح.
+
+                </p>
+
+
+            </section>
+
+
+
+            <!-- ======================
+                     VIDEOS
+            ======================= -->
+
+            <section class="content-section">
+
+
+                <div class="section-header">
+
+
+                    <div class="section-info">
+
+
+                        <div class="section-icon video-section-icon">
+
+                            <i class="fa-solid fa-video"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <h2>
+                                الفيديوهات
+                            </h2>
+
+                            <span id="videosCount">
+
+                                0 فيديو متاح
+
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- VIDEOS CONTAINER -->
+
+                <div
+                    id="videosContainer"
+                    class="items-grid"
+                ></div>
+
+
+
+                <!-- NO VIDEOS -->
+
+                <div
+                    id="noVideos"
+                    class="empty-content hidden"
+                >
+
+                    <i class="fa-solid fa-video-slash"></i>
+
+                    <p>
+                        لا توجد فيديوهات في هذا الكورس حاليًا.
+                    </p>
+
+                </div>
+
+
+            </section>
+
+
+
+            <!-- ======================
+                     PDF FILES
+            ======================= -->
+
+            <section class="content-section">
+
+
+                <div class="section-header">
+
+
+                    <div class="section-info">
+
+
+                        <div class="section-icon file-section-icon">
+
+                            <i class="fa-solid fa-file-lines"></i>
+
+                        </div>
+
+
+                        <div>
+
+                            <h2>
+                                ملفات الشرح
+                            </h2>
+
+                            <span id="filesCount">
+
+                                0 ملف متاح
+
+                            </span>
+
+                        </div>
+
+
+                    </div>
+
+
+                </div>
+
+
+
+                <!-- FILES CONTAINER -->
+
+                <div
+                    id="filesContainer"
+                    class="items-grid files-grid"
+                ></div>
+
+
+
+                <!-- NO FILES -->
+
+                <div
+                    id="noFiles"
+                    class="empty-content hidden"
+                >
+
+                    <i class="fa-solid fa-file-circle-xmark"></i>
+
+                    <p>
+                        لا توجد ملفات شرح في هذا الكورس حاليًا.
+                    </p>
+
+                </div>
+
+
+            </section>
+
+
+        </div>
+
+
+    </main>
+
+
+
+    <!-- ==============================
+                 JAVASCRIPT
+    =============================== -->
+
+    <script
+        type="module"
+        src="courses.js"
+    ></script>
+
+
+</body>
+
+</html>
