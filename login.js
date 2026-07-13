@@ -2,23 +2,15 @@
 // FIREBASE
 // ========================================
 
-import { auth, db } from "./firebase.js";
+import { auth } from "./firebase.js";
 
 import {
     signInWithEmailAndPassword,
     sendPasswordResetEmail,
     setPersistence,
     browserLocalPersistence,
-    signOut,
-    onAuthStateChanged
+    browserSessionPersistence
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-
-import {
-    doc,
-    getDoc,
-    setDoc,
-    updateDoc
-} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
 // ========================================
@@ -33,6 +25,9 @@ const emailInput =
 
 const passwordInput =
     document.getElementById("loginPassword");
+
+const rememberMe =
+    document.getElementById("rememberMe");
 
 const togglePassword =
     document.getElementById("togglePassword");
@@ -64,84 +59,31 @@ const ADMIN_EMAIL = "teacher@physics.com";
 
 
 // ========================================
-// DEVICE ID
-// ينشأ تلقائياً لأول مرة فقط
-// ========================================
-
-function getDeviceId() {
-
-    let deviceId =
-        localStorage.getItem(
-            "myoussef_device_id"
-        );
-
-    if (!deviceId) {
-
-        // إنشاء معرف عشوائي للجهاز / المتصفح
-        if (
-            window.crypto &&
-            typeof window.crypto.randomUUID === "function"
-        ) {
-
-            deviceId =
-                crypto.randomUUID();
-
-        } else {
-
-            // دعم المتصفحات القديمة
-            deviceId =
-                "device_" +
-                Date.now() +
-                "_" +
-                Math.random()
-                    .toString(36)
-                    .substring(2, 15);
-
-        }
-
-        // حفظه في نفس المتصفح
-        localStorage.setItem(
-            "myoussef_device_id",
-            deviceId
-        );
-    }
-
-    return deviceId;
-}
-
-
-// ========================================
 // SHOW / HIDE PASSWORD
 // ========================================
 
 if (togglePassword) {
 
-    togglePassword.addEventListener(
-        "click",
-        () => {
+    togglePassword.addEventListener("click", () => {
 
-            const isPassword =
-                passwordInput.type ===
-                "password";
+        const isPassword =
+            passwordInput.type === "password";
 
-            passwordInput.type =
-                isPassword
-                    ? "text"
-                    : "password";
+        passwordInput.type =
+            isPassword ? "text" : "password";
 
 
-            togglePassword.classList.toggle(
-                "fa-eye",
-                !isPassword
-            );
+        togglePassword.classList.toggle(
+            "fa-eye",
+            !isPassword
+        );
 
-            togglePassword.classList.toggle(
-                "fa-eye-slash",
-                isPassword
-            );
+        togglePassword.classList.toggle(
+            "fa-eye-slash",
+            isPassword
+        );
 
-        }
-    );
+    });
 
 }
 
@@ -151,6 +93,7 @@ if (togglePassword) {
 // ========================================
 
 loginForm.addEventListener(
+
     "submit",
 
     async (event) => {
@@ -160,9 +103,9 @@ loginForm.addEventListener(
         clearMessage();
 
 
-        // ====================================
-        // GET EMAIL + PASSWORD
-        // ====================================
+        // ========================================
+        // GET LOGIN DATA
+        // ========================================
 
         const email =
             emailInput.value
@@ -173,9 +116,9 @@ loginForm.addEventListener(
             passwordInput.value;
 
 
-        // ====================================
+        // ========================================
         // VALIDATION
-        // ====================================
+        // ========================================
 
         if (!email || !password) {
 
@@ -188,24 +131,36 @@ loginForm.addEventListener(
         }
 
 
+        // ========================================
+        // START LOADING
+        // ========================================
+
         setLoading(true);
 
 
         try {
 
-            // ====================================
-            // KEEP USER LOGGED IN
-            // ====================================
+            // ========================================
+            // LOGIN PERSISTENCE
+            // ========================================
+
+            const persistence =
+                rememberMe?.checked
+
+                    ? browserLocalPersistence
+
+                    : browserSessionPersistence;
+
 
             await setPersistence(
                 auth,
-                browserLocalPersistence
+                persistence
             );
 
 
-            // ====================================
+            // ========================================
             // FIREBASE LOGIN
-            // ====================================
+            // ========================================
 
             const userCredential =
                 await signInWithEmailAndPassword(
@@ -219,10 +174,25 @@ loginForm.addEventListener(
                 userCredential.user;
 
 
-            // ====================================
-            // ADMIN
-            // الأدمن غير مقيد بجهاز واحد
-            // ====================================
+            // ========================================
+            // SAVE USER INFORMATION
+            // ========================================
+
+            localStorage.setItem(
+                "userUID",
+                user.uid
+            );
+
+
+            localStorage.setItem(
+                "userEmail",
+                user.email || email
+            );
+
+
+            // ========================================
+            // CHECK ACCOUNT TYPE
+            // ========================================
 
             if (
                 user.email &&
@@ -230,187 +200,68 @@ loginForm.addEventListener(
                 ADMIN_EMAIL.toLowerCase()
             ) {
 
-                saveUserData(
-                    user,
-                    "admin",
+                localStorage.setItem(
+                    "userRole",
+                    "admin"
+                );
+
+                localStorage.setItem(
+                    "userName",
                     "مستر محمد يوسف"
                 );
 
-
-                showMessage(
-                    "تم تسجيل دخول الأدمن بنجاح، جاري تحويلك...",
-                    "success"
-                );
-
-
-                setTimeout(
-                    () => {
-
-                        window.location.replace(
-                            "dashboard.html"
-                        );
-
-                    },
-                    700
-                );
-
-
-                return;
             }
 
+            else {
 
-            // ====================================
-            // STUDENT DEVICE CHECK
-            // ====================================
-
-            const currentDeviceId =
-                getDeviceId();
-
-
-            const studentRef =
-                doc(
-                    db,
-                    "students",
-                    user.uid
+                localStorage.setItem(
+                    "userRole",
+                    "student"
                 );
 
-
-            const studentSnapshot =
-                await getDoc(
-                    studentRef
-                );
-
-
-            // ====================================
-            // IF STUDENT DOCUMENT DOES NOT EXIST
-            // إنشاء ملف تلقائي للطالب
-            // ====================================
-
-            if (!studentSnapshot.exists()) {
-
-                await setDoc(
-                    studentRef,
-                    {
-                        email:
-                            user.email || email,
-
-                        name:
-                            "طالب بالمنصة",
-
-                        activeDeviceId:
-                            currentDeviceId
-                    }
-                );
-
-
-                saveUserData(
-                    user,
-                    "student",
+                localStorage.setItem(
+                    "userName",
                     "طالب بالمنصة"
                 );
 
-
-                loginSuccess();
-
-                return;
             }
 
 
-            // ====================================
-            // GET STUDENT DATA
-            // ====================================
-
-            const studentData =
-                studentSnapshot.data();
-
-
-            const savedDeviceId =
-                studentData.activeDeviceId;
-
-
-            // ====================================
-            // FIRST LOGIN
-            // لا يوجد جهاز محفوظ
-            // ====================================
-
-            if (!savedDeviceId) {
-
-                await updateDoc(
-                    studentRef,
-                    {
-                        activeDeviceId:
-                            currentDeviceId
-                    }
-                );
-
-
-                saveUserData(
-                    user,
-                    "student",
-                    studentData.name ||
-                    "طالب بالمنصة"
-                );
-
-
-                loginSuccess();
-
-                return;
-            }
-
-
-            // ====================================
-            // SAME DEVICE
-            // ====================================
-
-            if (
-                savedDeviceId ===
-                currentDeviceId
-            ) {
-
-                saveUserData(
-                    user,
-                    "student",
-                    studentData.name ||
-                    "طالب بالمنصة"
-                );
-
-
-                loginSuccess();
-
-                return;
-            }
-
-
-            // ====================================
-            // DIFFERENT DEVICE
-            // ====================================
-
-            await signOut(auth);
-
-
-            clearUserData();
-
+            // ========================================
+            // SUCCESS MESSAGE
+            // ========================================
 
             showMessage(
-                "هذا الحساب مرتبط بجهاز آخر. تواصل مع إدارة المنصة لتغيير الجهاز.",
-                "error"
+                "تم تسجيل الدخول بنجاح",
+                "success"
             );
 
 
+            // إيقاف التحميل
             setLoading(false);
+
+
+            // ========================================
+            // REDIRECT TO PROFILE
+            // ========================================
+
+            setTimeout(() => {
+
+                window.location.replace(
+                    "profile.html"
+                );
+
+            }, 700);
 
         }
 
         catch (error) {
 
             console.error(
-                "Login Error:",
+                "Firebase Login Error:",
                 error
             );
 
-
-            // لو تم تسجيل الدخول قبل حدوث خطأ
-            // لا نحذف الجلسة هنا تلقائياً إلا حسب الخطأ
 
             showMessage(
                 getFirebaseErrorMessage(
@@ -421,109 +272,22 @@ loginForm.addEventListener(
 
 
             setLoading(false);
+
         }
 
     }
+
 );
 
 
 // ========================================
-// LOGIN SUCCESS
-// ========================================
-
-function loginSuccess() {
-
-    showMessage(
-        "تم تسجيل الدخول بنجاح، جاري تحويلك...",
-        "success"
-    );
-
-
-    setTimeout(
-        () => {
-
-            window.location.replace(
-                "dashboard.html"
-            );
-
-        },
-        700
-    );
-
-}
-
-
-// ========================================
-// SAVE USER DATA
-// ========================================
-
-function saveUserData(
-    user,
-    role,
-    name
-) {
-
-    localStorage.setItem(
-        "userRole",
-        role
-    );
-
-
-    localStorage.setItem(
-        "userName",
-        name
-    );
-
-
-    localStorage.setItem(
-        "userUID",
-        user.uid
-    );
-
-
-    localStorage.setItem(
-        "userEmail",
-        user.email || ""
-    );
-
-}
-
-
-// ========================================
-// CLEAR USER DATA
-// ========================================
-
-function clearUserData() {
-
-    localStorage.removeItem(
-        "userRole"
-    );
-
-    localStorage.removeItem(
-        "userName"
-    );
-
-    localStorage.removeItem(
-        "userUID"
-    );
-
-    localStorage.removeItem(
-        "userEmail"
-    );
-
-    // مهم جداً:
-    // لا نحذف myoussef_device_id
-    // لأنه معرف هذا الجهاز
-}
-
-
-// ========================================
-// PASSWORD RESET
+// FORGOT PASSWORD
 // ========================================
 
 if (forgotPassword) {
 
     forgotPassword.addEventListener(
+
         "click",
 
         async (event) => {
@@ -585,6 +349,7 @@ if (forgotPassword) {
             }
 
         }
+
     );
 
 }
@@ -596,14 +361,22 @@ if (forgotPassword) {
 
 function setLoading(isLoading) {
 
-    loginButton.disabled =
-        isLoading;
+    if (loginButton) {
+
+        loginButton.disabled =
+            isLoading;
+
+    }
 
 
     if (isLoading) {
 
-        buttonText.textContent =
-            "جاري تسجيل الدخول...";
+        if (buttonText) {
+
+            buttonText.textContent =
+                "جاري تسجيل الدخول...";
+
+        }
 
 
         if (buttonIcon) {
@@ -625,8 +398,12 @@ function setLoading(isLoading) {
 
     else {
 
-        buttonText.textContent =
-            "تسجيل الدخول";
+        if (buttonText) {
+
+            buttonText.textContent =
+                "تسجيل الدخول";
+
+        }
 
 
         if (buttonIcon) {
@@ -658,6 +435,13 @@ function showMessage(
     type
 ) {
 
+    if (!messageBox) {
+
+        return;
+
+    }
+
+
     messageBox.textContent =
         message;
 
@@ -673,6 +457,13 @@ function showMessage(
 // ========================================
 
 function clearMessage() {
+
+    if (!messageBox) {
+
+        return;
+
+    }
+
 
     messageBox.textContent =
         "";
@@ -693,7 +484,6 @@ function getFirebaseErrorMessage(
 ) {
 
     switch (errorCode) {
-
 
         case "auth/invalid-email":
 
@@ -733,12 +523,6 @@ function getFirebaseErrorMessage(
         case "auth/missing-password":
 
             return "من فضلك أدخل كلمة المرور.";
-
-
-        case "permission-denied":
-        case "firestore/permission-denied":
-
-            return "لا توجد صلاحية للوصول إلى بيانات الطالب  .";
 
 
         default:
