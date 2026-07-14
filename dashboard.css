@@ -744,6 +744,147 @@ nav a.active {
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
 }
+/* =========================================
+        COURSE PRICE + LOCK DESIGN
+========================================= */
+
+
+/* صف السعر والمرحلة */
+
+.course-top-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+    margin-bottom: 15px;
+}
+
+
+/* تعديل المسافة القديمة */
+
+.course-top-row .course-grade {
+    margin-bottom: 0;
+}
+
+
+/* سعر الكورس */
+
+.course-price {
+    flex-shrink: 0;
+
+    padding: 8px 13px;
+
+    border: 1px solid rgba(255, 140, 0, 0.3);
+    border-radius: 10px;
+
+    background:
+        rgba(255, 140, 0, 0.09);
+
+    color: #ff9d24;
+
+    font-size: 13px;
+    font-weight: 800;
+
+    box-shadow:
+        0 8px 25px
+        rgba(255, 140, 0, 0.07);
+}
+
+
+/* علامة القفل فوق الصورة */
+
+.course-lock {
+    position: absolute;
+
+    top: 17px;
+    left: 17px;
+
+    z-index: 5;
+
+    width: 46px;
+    height: 46px;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    border:
+        1px solid
+        rgba(255, 255, 255, 0.16);
+
+    border-radius: 14px;
+
+    background:
+        rgba(5, 5, 5, 0.72);
+
+    backdrop-filter:
+        blur(15px);
+
+    -webkit-backdrop-filter:
+        blur(15px);
+
+    color: #ff9d24;
+
+    font-size: 17px;
+
+    box-shadow:
+        0 10px 30px
+        rgba(0, 0, 0, 0.35);
+}
+
+
+/* رسالة أن الكورس مغلق */
+
+.locked-message {
+    width: 100%;
+
+    margin-top: 20px;
+    padding: 13px 15px;
+
+    display: flex;
+    align-items: center;
+    gap: 10px;
+
+    border:
+        1px solid
+        rgba(255, 140, 0, 0.16);
+
+    border-radius: 12px;
+
+    background:
+        rgba(255, 140, 0, 0.055);
+
+    color: #bcbcbc;
+
+    font-size: 12px;
+    font-weight: 700;
+}
+
+
+.locked-message i {
+    color: #ff8c00;
+}
+
+
+/* موبايل */
+
+@media (max-width: 550px) {
+
+    .course-lock {
+        width: 42px;
+        height: 42px;
+
+        top: 14px;
+        left: 14px;
+    }
+
+
+    .course-price {
+        font-size: 12px;
+        padding: 7px 10px;
+    }
+
+}
 
 .hero-label i {
     color: #ff8c00;
