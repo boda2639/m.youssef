@@ -2,21 +2,22 @@
 // FIREBASE
 // ==========================================
 
-import {
-    auth,
-    db
-} from "./firebase.js";
-
+import { auth, db } from "./firebase.js";
 
 import {
     onAuthStateChanged,
     signOut
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
-
 import {
     doc,
-    getDoc
+    getDoc,
+    collection,
+    query,
+    where,
+    getDocs,
+    limit,
+    Timestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
@@ -24,297 +25,404 @@ import {
 // HTML ELEMENTS
 // ==========================================
 
-const loadingBox =
-    document.getElementById("loadingBox");
+const loadingBox = document.getElementById("loadingBox");
+const profileContent = document.getElementById("profileContent");
+const errorBox = document.getElementById("errorBox");
+const errorText = document.getElementById("errorText");
 
-const profileContent =
-    document.getElementById("profileContent");
+const studentName = document.getElementById("studentName");
+const studentEmail = document.getElementById("studentEmail");
+const studentPhone = document.getElementById("studentPhone");
+const studentGrade = document.getElementById("studentGrade");
+const studentCode = document.getElementById("studentCode");
+const studentUID = document.getElementById("studentUID");
 
-const errorBox =
-    document.getElementById("errorBox");
+/* عناصر إضافية إن كانت موجودة في HTML */
+const studentSubject = document.getElementById("studentSubject");
+const registrationDate = document.getElementById("registrationDate");
+const lastLogin = document.getElementById("lastLogin");
 
-const errorText =
-    document.getElementById("errorText");
-
-
-// بيانات الطالب
-
-const studentName =
-    document.getElementById("studentName");
-
-const studentEmail =
-    document.getElementById("studentEmail");
-
-const studentPhone =
-    document.getElementById("studentPhone");
-
-const studentGrade =
-    document.getElementById("studentGrade");
-
-const studentCode =
-    document.getElementById("studentCode");
-
-const studentUID =
-    document.getElementById("studentUID");
-
-
-// زر تسجيل الخروج
-
-const logoutBtn =
-    document.getElementById("logoutBtn");
+const logoutBtn = document.getElementById("logoutBtn");
 
 
 // ==========================================
-// CHECK AUTHENTICATION
+// AUTH STATE
 // ==========================================
 
-onAuthStateChanged(
+onAuthStateChanged(auth, async (user) => {
 
-    auth,
+    if (!user) {
+        window.location.replace("login.html");
+        return;
+    }
 
-    async (user) => {
+    try {
 
         // ==================================
-        // USER NOT LOGGED IN
+        // SEARCH FOR STUDENT DATA
         // ==================================
 
-        if (!user) {
+        const student = await findStudent(user);
 
-            window.location.replace(
-                "login.html"
-            );
-
-            return;
-        }
+        console.log("بيانات الطالب من Firebase:", student);
 
 
         // ==================================
-        // LOAD STUDENT PROFILE
+        // NAME
         // ==================================
 
-        try {
+        setText(
+            studentName,
+            student?.name ||
+            student?.fullName ||
+            student?.studentName ||
+            user.displayName ||
+            "طالب المنصة"
+        );
+
+
+        // ==================================
+        // EMAIL
+        // ==================================
+
+        setText(
+            studentEmail,
+            student?.email ||
+            student?.studentEmail ||
+            user.email ||
+            "غير مضاف"
+        );
+
+
+        // ==================================
+        // PHONE
+        // ==================================
+
+        setText(
+            studentPhone,
+            student?.phone ||
+            student?.phoneNumber ||
+            student?.studentPhone ||
+            student?.mobile ||
+            "غير مضاف"
+        );
+
+
+        // ==================================
+        // GRADE
+        // ==================================
+
+        setText(
+            studentGrade,
+            student?.grade ||
+            student?.studentGrade ||
+            student?.class ||
+            student?.gradeName ||
+            "غير مضاف"
+        );
+
+
+        // ==================================
+        // STUDENT CODE
+        // ==================================
+
+        setText(
+            studentCode,
+            student?.studentCode ||
+            student?.code ||
+            student?.studentId ||
+            student?.studentID ||
+            "غير مضاف"
+        );
+
 
-            const studentRef =
-                doc(
-                    db,
-                    "students",
-                    user.uid
-                );
+        // ==================================
+        // SUBJECT
+        // ==================================
 
+        setText(
+            studentSubject,
+            student?.subject ||
+            student?.courseSubject ||
+            "فيزياء"
+        );
 
-            const studentSnapshot =
-                await getDoc(
-                    studentRef
-                );
 
+        // ==================================
+        // UID
+        // ==================================
 
-            // ==================================
-            // STUDENT EXISTS IN FIRESTORE
-            // ==================================
+        setText(
+            studentUID,
+            user.uid
+        );
 
-            if (
-                studentSnapshot.exists()
-            ) {
 
-                const student =
-                    studentSnapshot.data();
+        // ==================================
+        // REGISTRATION DATE
+        // ==================================
 
+        setText(
+            registrationDate,
+            formatFirebaseDate(
+                student?.createdAt ||
+                student?.registrationDate ||
+                student?.createdDate ||
+                user.metadata?.creationTime
+            )
+        );
 
-                console.log(
-                    "بيانات الطالب:",
-                    student
-                );
 
+        // ==================================
+        // LAST LOGIN
+        // ==================================
 
-                // ==================================
-                // DISPLAY STUDENT DATA
-                // ==================================
+        setText(
+            lastLogin,
+            formatFirebaseDate(
+                user.metadata?.lastSignInTime
+            ) || "اليوم"
+        );
 
-                setText(
 
-                    studentName,
+        // ==================================
+        // SHOW PROFILE
+        // ==================================
 
-                    student.name ||
-                    student.fullName ||
-                    "طالب المنصة"
+        loadingBox?.classList.add("hidden");
+        errorBox?.classList.add("hidden");
+        profileContent?.classList.remove("hidden");
 
-                );
+    }
 
+    catch (error) {
 
-                setText(
+        console.error(
+            "خطأ أثناء تحميل بيانات الطالب:",
+            error
+        );
 
-                    studentEmail,
+        showError(
+            "حدث خطأ أثناء تحميل بيانات حسابك."
+        );
+    }
 
-                    student.email ||
-                    user.email ||
-                    "غير متوفر"
+});
 
-                );
 
+// ==========================================
+// FIND STUDENT
+// ==========================================
 
-                setText(
+async function findStudent(user) {
 
-                    studentPhone,
+    // --------------------------------------
+    // 1. SEARCH BY DOCUMENT ID = USER UID
+    // --------------------------------------
 
-                    student.phone ||
-                    student.phoneNumber ||
-                    "غير مضاف"
+    const directRef = doc(
+        db,
+        "students",
+        user.uid
+    );
 
-                );
+    const directSnapshot = await getDoc(directRef);
 
+    if (directSnapshot.exists()) {
 
-                setText(
+        return {
+            id: directSnapshot.id,
+            ...directSnapshot.data()
+        };
 
-                    studentGrade,
+    }
 
-                    student.grade ||
-                    student.class ||
-                    student.studentGrade ||
-                    "غير مضاف"
 
-                );
+    // --------------------------------------
+    // 2. SEARCH BY uid FIELD
+    // --------------------------------------
 
+    const uidQuery = query(
+        collection(db, "students"),
+        where("uid", "==", user.uid),
+        limit(1)
+    );
 
-                setText(
+    const uidSnapshot = await getDocs(uidQuery);
 
-                    studentCode,
+    if (!uidSnapshot.empty) {
 
-                    student.studentCode ||
-                    student.code ||
-                    "غير مضاف"
+        const studentDoc = uidSnapshot.docs[0];
 
-                );
+        return {
+            id: studentDoc.id,
+            ...studentDoc.data()
+        };
 
+    }
 
-                setText(
 
-                    studentUID,
+    // --------------------------------------
+    // 3. SEARCH BY userId FIELD
+    // --------------------------------------
 
-                    user.uid
+    const userIdQuery = query(
+        collection(db, "students"),
+        where("userId", "==", user.uid),
+        limit(1)
+    );
 
-                );
+    const userIdSnapshot = await getDocs(userIdQuery);
 
+    if (!userIdSnapshot.empty) {
 
-                // ==================================
-                // SHOW PROFILE
-                // ==================================
+        const studentDoc = userIdSnapshot.docs[0];
 
-                loadingBox?.classList.add(
-                    "hidden"
-                );
+        return {
+            id: studentDoc.id,
+            ...studentDoc.data()
+        };
 
+    }
 
-                errorBox?.classList.add(
-                    "hidden"
-                );
 
+    // --------------------------------------
+    // 4. SEARCH BY EMAIL
+    // --------------------------------------
 
-                profileContent?.classList.remove(
-                    "hidden"
-                );
+    if (user.email) {
 
-            }
+        const emailQuery = query(
+            collection(db, "students"),
+            where("email", "==", user.email),
+            limit(1)
+        );
 
+        const emailSnapshot = await getDocs(emailQuery);
 
-            // ==================================
-            // STUDENT DOCUMENT NOT FOUND
-            // ==================================
+        if (!emailSnapshot.empty) {
 
-            else {
+            const studentDoc = emailSnapshot.docs[0];
 
-                console.warn(
-                    "لا يوجد مستند للطالب داخل Firestore"
-                );
-
-
-                // نعرض البيانات الأساسية من Auth
-
-                setText(
-
-                    studentName,
-
-                    user.displayName ||
-                    "طالب المنصة"
-
-                );
-
-
-                setText(
-
-                    studentEmail,
-
-                    user.email ||
-                    "غير متوفر"
-
-                );
-
-
-                setText(
-
-                    studentPhone,
-
-                    "غير مضاف"
-
-                );
-
-
-                setText(
-
-                    studentGrade,
-
-                    "غير مضاف"
-
-                );
-
-
-                setText(
-
-                    studentCode,
-
-                    "غير مضاف"
-
-                );
-
-
-                setText(
-
-                    studentUID,
-
-                    user.uid
-
-                );
-
-
-                loadingBox?.classList.add(
-                    "hidden"
-                );
-
-
-                profileContent?.classList.remove(
-                    "hidden"
-                );
-
-            }
-
-        }
-
-        catch (error) {
-
-            console.error(
-                "خطأ أثناء تحميل بيانات الطالب:",
-                error
-            );
-
-
-            showError(
-                "حدث خطأ أثناء تحميل بيانات حسابك."
-            );
+            return {
+                id: studentDoc.id,
+                ...studentDoc.data()
+            };
 
         }
 
     }
 
-);
+
+    // NO STUDENT DOCUMENT
+    return null;
+}
+
+
+// ==========================================
+// FORMAT FIREBASE DATE
+// ==========================================
+
+function formatFirebaseDate(value) {
+
+    if (!value) {
+        return "غير معروف";
+    }
+
+    try {
+
+        let date;
+
+
+        // Firestore Timestamp
+        if (
+            value instanceof Timestamp ||
+            typeof value?.toDate === "function"
+        ) {
+
+            date = value.toDate();
+
+        }
+
+        // JavaScript Date
+        else if (value instanceof Date) {
+
+            date = value;
+
+        }
+
+        // String date
+        else {
+
+            date = new Date(value);
+
+        }
+
+
+        if (isNaN(date.getTime())) {
+            return "غير معروف";
+        }
+
+
+        return date.toLocaleDateString(
+            "ar-EG",
+            {
+                year: "numeric",
+                month: "long",
+                day: "numeric"
+            }
+        );
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "خطأ في تحويل التاريخ:",
+            error
+        );
+
+        return "غير معروف";
+    }
+
+}
+
+
+// ==========================================
+// SET TEXT
+// ==========================================
+
+function setText(element, value) {
+
+    if (!element) {
+        return;
+    }
+
+    element.textContent =
+        value !== undefined &&
+        value !== null &&
+        value !== ""
+            ? value
+            : "غير مضاف";
+}
+
+
+// ==========================================
+// SHOW ERROR
+// ==========================================
+
+function showError(message) {
+
+    loadingBox?.classList.add("hidden");
+
+    profileContent?.classList.add("hidden");
+
+    errorBox?.classList.remove("hidden");
+
+    if (errorText) {
+        errorText.textContent = message;
+    }
+}
 
 
 // ==========================================
@@ -324,38 +432,17 @@ onAuthStateChanged(
 if (logoutBtn) {
 
     logoutBtn.addEventListener(
-
         "click",
-
         async () => {
 
             try {
 
-                // تسجيل الخروج من Firebase
-
                 await signOut(auth);
 
-
-                // حذف البيانات المحلية
-
-                localStorage.removeItem(
-                    "userRole"
-                );
-
-                localStorage.removeItem(
-                    "userName"
-                );
-
-                localStorage.removeItem(
-                    "userUID"
-                );
-
-                localStorage.removeItem(
-                    "userEmail"
-                );
-
-
-                // الانتقال لصفحة تسجيل الدخول
+                localStorage.removeItem("userRole");
+                localStorage.removeItem("userName");
+                localStorage.removeItem("userUID");
+                localStorage.removeItem("userEmail");
 
                 window.location.replace(
                     "login.html"
@@ -370,70 +457,10 @@ if (logoutBtn) {
                     error
                 );
 
-
                 alert(
                     "حدث خطأ أثناء تسجيل الخروج."
                 );
-
             }
-
         }
-
     );
-
-}
-
-
-// ==========================================
-// SET TEXT SAFELY
-// ==========================================
-
-function setText(
-    element,
-    value
-) {
-
-    if (!element) {
-
-        return;
-
-    }
-
-
-    element.textContent =
-        value ?? "غير متوفر";
-
-}
-
-
-// ==========================================
-// SHOW ERROR
-// ==========================================
-
-function showError(
-    message
-) {
-
-    loadingBox?.classList.add(
-        "hidden"
-    );
-
-
-    profileContent?.classList.add(
-        "hidden"
-    );
-
-
-    errorBox?.classList.remove(
-        "hidden"
-    );
-
-
-    if (errorText) {
-
-        errorText.textContent =
-            message;
-
-    }
-
 }
