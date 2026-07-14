@@ -3,468 +3,384 @@
 
 <head>
 
-<meta charset="UTF-8">
+    <meta charset="UTF-8">
 
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1.0">
 
-<title>الملف الشخصي | M.YOUSSEF</title>
+    <title>الملف الشخصي | M.YOUSSEF</title>
 
+    <link rel="stylesheet" href="profile.css">
 
-<link rel="stylesheet" href="profile.css">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&display=swap"
+        rel="stylesheet"
+    >
 
-
-<link
-href="https://fonts.googleapis.com/css2?family=Almarai:wght@400;700;800&display=swap"
-rel="stylesheet">
-
-
-<link
-rel="stylesheet"
-href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+    <link
+        rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
+    >
 
 </head>
 
 
 <body>
 
-
 <div class="background"></div>
-
 
 
 <!-- HEADER -->
 
 <header class="header">
 
+    <div class="logo">
 
-<div class="logo">
+        <i class="fa-solid fa-atom"></i>
 
-<i class="fa-solid fa-atom"></i>
+        <span>
+            M.YOUSSEF
+        </span>
 
-<span>
-M.YOUSSEF
-</span>
-
-</div>
-
+    </div>
 
 
-<button 
-class="back-btn"
-onclick="location.href='index.html'">
+    <button
+        class="back-btn"
+        onclick="location.href='dashboard.html'"
+    >
 
-<i class="fa-solid fa-arrow-right"></i>
+        <i class="fa-solid fa-arrow-right"></i>
 
-العودة للرئيسية
+        العودة للرئيسية
 
-</button>
-
+    </button>
 
 </header>
-
-
-
 
 
 <main class="profile-container">
 
 
+    <!-- TITLE -->
 
-<!-- TITLE -->
+    <div class="page-title">
 
-<div class="page-title">
+        <span>
+            حساب الطالب
+        </span>
 
-<span>
-حساب الطالب
-</span>
+        <h1>
+            الملف الشخصي
+        </h1>
 
+        <p>
+            جميع بيانات حسابك على منصة مستر محمد يوسف
+        </p>
 
-<h1>
-الملف الشخصي
-</h1>
+    </div>
 
 
-<p>
-جميع بيانات حسابك على منصة مستر محمد يوسف
-</p>
+    <!-- PROFILE CARD -->
 
+    <section class="profile-card">
 
-</div>
 
+        <div class="student-info">
 
+            <div class="avatar">
 
+                <i class="fa-solid fa-user-graduate"></i>
 
+                <span></span>
 
-<!-- PROFILE CARD -->
+            </div>
 
 
-<section class="profile-card">
+            <div>
 
+                <div class="account-type">
 
+                    <i class="fa-solid fa-user-check"></i>
 
-<div class="student-info">
+                    طالب بالمنصة
 
+                </div>
 
 
-<div class="avatar">
+                <h2 id="studentName">
+                    جاري التحميل...
+                </h2>
 
-<i class="fa-solid fa-user-graduate"></i>
 
-<span></span>
+                <p id="studentGrade">
+                    جاري التحميل...
+                </p>
 
-</div>
+            </div>
 
+        </div>
 
 
+        <div class="status-box">
 
-<div>
+            <span>
+                حالة الحساب
+            </span>
 
-<div class="account-type">
+            <strong>
 
-<i class="fa-solid fa-user-check"></i>
+                <i class="fa-solid fa-circle-check"></i>
 
-طالب بالمنصة
+                نشط
 
-</div>
+            </strong>
 
+        </div>
 
+    </section>
 
-<h2 id="studentName">
-جاري التحميل...
-</h2>
 
+    <!-- DATA -->
 
-<p id="studentGrade">
-الصف الثالث الثانوي
-</p>
+    <section class="data-card">
 
 
-</div>
+        <div class="section-title">
 
+            <i class="fa-solid fa-id-card"></i>
 
-</div>
 
+            <div>
 
+                <h3>
+                    بيانات الطالب
+                </h3>
 
+                <p>
+                    المعلومات المسجلة في حسابك
+                </p>
 
+            </div>
 
-<div class="status-box">
+        </div>
 
 
-<span>
-حالة الحساب
-</span>
+        <div class="data-grid">
 
 
-<strong>
+            <!-- NAME -->
 
-<i class="fa-solid fa-circle-check"></i>
+            <div class="data-item">
 
-نشط
+                <i class="fa-solid fa-user"></i>
 
-</strong>
+                <div>
 
+                    <span>
+                        اسم الطالب
+                    </span>
 
-</div>
+                    <b id="name">
+                        جاري التحميل...
+                    </b>
 
+                </div>
 
+            </div>
 
-</section>
 
+            <!-- EMAIL -->
 
+            <div class="data-item">
 
+                <i class="fa-solid fa-envelope"></i>
 
+                <div>
 
+                    <span>
+                        البريد الإلكتروني
+                    </span>
 
+                    <b id="email">
+                        جاري التحميل...
+                    </b>
 
-<!-- DATA -->
+                </div>
 
-<section class="data-card">
+            </div>
 
 
-<div class="section-title">
+            <!-- PHONE -->
 
+            <div class="data-item">
 
-<i class="fa-solid fa-id-card"></i>
+                <i class="fa-solid fa-phone"></i>
 
+                <div>
 
-<div>
+                    <span>
+                        رقم الهاتف
+                    </span>
 
-<h3>
-بيانات الطالب
-</h3>
+                    <b id="phone">
+                        جاري التحميل...
+                    </b>
 
-<p>
-المعلومات المسجلة في حسابك
-</p>
+                </div>
 
+            </div>
 
-</div>
 
+            <!-- STUDENT CODE -->
 
-</div>
+            <div class="data-item">
 
+                <i class="fa-solid fa-key"></i>
 
+                <div>
 
+                    <span>
+                        كود الطالب
+                    </span>
 
+                    <b id="studentCode">
+                        جاري التحميل...
+                    </b>
 
+                </div>
 
-<div class="data-grid">
+            </div>
 
 
+            <!-- GRADE -->
 
-<div class="data-item">
+            <div class="data-item">
 
-<i class="fa-solid fa-user"></i>
+                <i class="fa-solid fa-graduation-cap"></i>
 
-<div>
+                <div>
 
-<span>
-اسم الطالب
-</span>
+                    <span>
+                        الصف الدراسي
+                    </span>
 
-<b id="name">
-جاري التحميل...
-</b>
+                    <b id="grade">
+                        جاري التحميل...
+                    </b>
 
-</div>
+                </div>
 
-</div>
+            </div>
 
 
+            <!-- SUBJECT -->
 
+            <div class="data-item">
 
+                <i class="fa-solid fa-book"></i>
 
-<div class="data-item">
+                <div>
 
-<i class="fa-solid fa-envelope"></i>
+                    <span>
+                        المادة
+                    </span>
 
-<div>
+                    <b>
+                        فيزياء
+                    </b>
 
-<span>
-البريد الإلكتروني
-</span>
+                </div>
 
-<b id="email">
-جاري التحميل...
-</b>
+            </div>
 
-</div>
 
-</div>
+            <!-- JOIN DATE -->
 
+            <div class="data-item">
 
+                <i class="fa-solid fa-calendar"></i>
 
+                <div>
 
+                    <span>
+                        تاريخ التسجيل
+                    </span>
 
+                    <b id="joinDate">
+                        جاري التحميل...
+                    </b>
 
+                </div>
 
-<div class="data-item">
+            </div>
 
-<i class="fa-solid fa-phone"></i>
 
-<div>
+            <!-- WALLET -->
 
-<span>
-رقم الهاتف
-</span>
+            <div class="data-item">
 
-<b id="phone">
-غير مضاف
-</b>
+                <i class="fa-solid fa-wallet"></i>
 
-</div>
+                <div>
 
-</div>
+                    <span>
+                        المحفظة
+                    </span>
 
+                    <b id="studentWallet">
+                        جاري التحميل...
+                    </b>
 
+                </div>
 
+            </div>
 
 
+        </div>
 
+    </section>
 
 
-<div class="data-item">
+    <!-- ACTIONS -->
 
-<i class="fa-solid fa-key"></i>
+    <section class="actions-card">
 
-<div>
 
-<span>
-كود الطالب
-</span>
+        <button
+            class="course-btn"
+            onclick="location.href='dashboard.html'"
+        >
 
-<b id="studentCode">
-غير مضاف
-</b>
+            <i class="fa-solid fa-graduation-cap"></i>
 
-</div>
+            اكتشف كورساتك
 
-</div>
+        </button>
 
 
+        <button
+            class="logout-btn"
+            id="logoutBtn"
+        >
 
+            <i class="fa-solid fa-right-from-bracket"></i>
 
+            تسجيل الخروج
 
+        </button>
 
 
-
-<div class="data-item">
-
-<i class="fa-solid fa-graduation-cap"></i>
-
-<div>
-
-<span>
-الصف الدراسي
-</span>
-
-<b id="grade">
-الثالث الثانوي</b>
-
-</div>
-
-</div>
-
-
-
-
-
-
-
-
-
-<div class="data-item">
-
-<i class="fa-solid fa-book"></i>
-
-<div>
-
-<span>
-المادة
-</span>
-
-<b>
-فيزياء
-</b>
-
-</div>
-
-</div>
-
-
-
-
-
-
-
-
-<div class="data-item">
-
-<i class="fa-solid fa-calendar"></i>
-
-<div>
-
-<span>
-تاريخ التسجيل
-</span>
-
-<b id="joinDate">
-غير معروف
-</b>
-
-</div>
-
-</div>
-
-
-
-
-
-
-
-
-<div class="data-item">
-
-<i class="fa-solid fa-clock"></i>
-
-<div>
-
-<span>
-آخر دخول
-</span>
-
-<b>
-اليوم
-</b>
-
-</div>
-
-</div>
-
-
-
-</div>
-
-
-</section>
-
-
-
-
-
-
-
-<!-- ACTIONS -->
-
-
-<section class="actions-card">
-
-
-<button 
-class="course-btn"
-onclick="location.href='dashboard.html'">
-
-
-<i class="fa-solid fa-graduation-cap"></i>
-
-
-اكتشف كورساتك
-
-
-</button>
-
-
-
-
-
-<button 
-class="logout-btn"
-id="logoutBtn">
-
-
-<i class="fa-solid fa-right-from-bracket"></i>
-
-
-تسجيل الخروج
-
-
-</button>
-
-
-
-</section>
-
-
+    </section>
 
 
 </main>
 
 
-
-
-
-<script type="module" src="profile.js"></script>
+<script
+    type="module"
+    src="profile.js"
+></script>
 
 
 </body>
