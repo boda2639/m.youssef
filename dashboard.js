@@ -40,7 +40,7 @@ const courseSearch =
 
 
 // ==========================================
-// AUTH
+// CHECK AUTHENTICATION
 // ==========================================
 
 onAuthStateChanged(
@@ -49,13 +49,10 @@ onAuthStateChanged(
 
         if (!user) {
 
-            window.location.replace(
-                "/login"
-            );
+            window.location.replace("/login");
 
             return;
         }
-
 
         loadCourses();
 
@@ -80,17 +77,30 @@ async function loadCourses() {
             );
 
 
-        loadingBox.style.display =
-            "none";
+        if (loadingBox) {
+
+            loadingBox.style.display =
+                "none";
+
+        }
 
 
         if (querySnapshot.empty) {
 
-            emptyState.style.display =
-                "block";
+            if (emptyState) {
 
-            coursesCount.textContent =
-                "لا توجد كورسات";
+                emptyState.style.display =
+                    "block";
+
+            }
+
+
+            if (coursesCount) {
+
+                coursesCount.textContent =
+                    "لا توجد كورسات";
+
+            }
 
             return;
         }
@@ -122,8 +132,12 @@ async function loadCourses() {
         );
 
 
-        coursesCount.textContent =
-            `${querySnapshot.size} كورس متاح`;
+        if (coursesCount) {
+
+            coursesCount.textContent =
+                `${querySnapshot.size} كورس متاح`;
+
+        }
 
     }
 
@@ -135,15 +149,23 @@ async function loadCourses() {
         );
 
 
-        loadingBox.innerHTML = `
+        if (loadingBox) {
 
-            <i class="fa-solid fa-triangle-exclamation"></i>
+            loadingBox.style.display =
+                "block";
 
-            <span>
-                حدث خطأ أثناء تحميل الكورسات
-            </span>
 
-        `;
+            loadingBox.innerHTML = `
+
+                <i class="fa-solid fa-triangle-exclamation"></i>
+
+                <span>
+                    حدث خطأ أثناء تحميل الكورسات
+                </span>
+
+            `;
+
+        }
 
     }
 
@@ -210,11 +232,20 @@ function createCourseCard(
         "المرحلة الثانوية";
 
 
+    // ======================================
+    // COURSE PRICE
+    // ======================================
+
     const price =
 
         Number(
             course.price ?? 0
         );
+
+
+    // هل الكورس مجاني؟
+    const isFree =
+        price <= 0;
 
 
     // ======================================
@@ -223,11 +254,84 @@ function createCourseCard(
 
     const priceText =
 
-        price > 0
+        isFree
 
-            ? `${price.toLocaleString("ar-EG")} جنيه`
+            ? "مجاني"
 
-            : "مجاني";
+            : `${price.toLocaleString("ar-EG")} جنيه`;
+
+
+
+    // ======================================
+    // LOCK ICON
+    // ======================================
+
+    const lockHTML =
+
+        isFree
+
+            ? `
+
+                <div class="course-lock free-course">
+
+                    <i class="fa-solid fa-lock-open"></i>
+
+                </div>
+
+            `
+
+            : `
+
+                <div class="course-lock">
+
+                    <i class="fa-solid fa-lock"></i>
+
+                </div>
+
+            `;
+
+
+
+    // ======================================
+    // COURSE STATUS MESSAGE
+    // ======================================
+
+    const statusHTML =
+
+        isFree
+
+            ? `
+
+                <div class="locked-message free-message">
+
+                    <i class="fa-solid fa-circle-check"></i>
+
+                    <span>
+
+                        كورس مجاني ومتاح للمشاهدة
+
+                    </span>
+
+                </div>
+
+            `
+
+            : `
+
+                <div class="locked-message">
+
+                    <i class="fa-solid fa-lock"></i>
+
+                    <span>
+
+                        الكورس مغلق حتى إتمام الشراء
+
+                    </span>
+
+                </div>
+
+            `;
+
 
 
     // ======================================
@@ -259,13 +363,9 @@ function createCourseCard(
             </div>
 
 
-            <!-- LOCK -->
+            <!-- LOCK / UNLOCK -->
 
-            <div class="course-lock">
-
-                <i class="fa-solid fa-lock"></i>
-
-            </div>
+            ${lockHTML}
 
 
         </div>
@@ -273,6 +373,8 @@ function createCourseCard(
 
         <div class="course-content">
 
+
+            <!-- GRADE + PRICE -->
 
             <div class="course-top-row">
 
@@ -290,7 +392,7 @@ function createCourseCard(
                 </div>
 
 
-                <div class="course-price">
+                <div class="course-price ${isFree ? "free-price" : ""}">
 
                     ${escapeHTML(priceText)}
 
@@ -300,12 +402,16 @@ function createCourseCard(
             </div>
 
 
+            <!-- TITLE -->
+
             <h3 class="course-title">
 
                 ${escapeHTML(title)}
 
             </h3>
 
+
+            <!-- DESCRIPTION -->
 
             <p class="course-description">
 
@@ -314,25 +420,22 @@ function createCourseCard(
             </p>
 
 
-            <div class="locked-message">
+            <!-- STATUS -->
 
-                <i class="fa-solid fa-lock"></i>
+            ${statusHTML}
 
-                <span>
 
-                    الكورس مغلق حتى إتمام الشراء
-
-                </span>
-
-            </div>
-
+            <!-- BUTTON -->
 
             <button
                 class="course-button"
                 data-course-id="${escapeHTML(courseId)}"
             >
 
-                عرض تفاصيل الكورس
+                ${isFree
+                    ? "ابدأ الكورس مجانًا"
+                    : "عرض تفاصيل الكورس"
+                }
 
                 <i class="fa-solid fa-arrow-left"></i>
 
@@ -345,7 +448,7 @@ function createCourseCard(
 
 
     // ======================================
-    // OPEN COURSE DETAILS
+    // COURSE BUTTON
     // ======================================
 
     const button =
@@ -406,15 +509,23 @@ if (courseSearch) {
                             .toLowerCase();
 
 
-                    card.style.display =
-
+                    if (
                         cardText.includes(
                             searchValue
                         )
+                    ) {
 
-                            ? ""
+                        card.style.display =
+                            "";
 
-                            : "none";
+                    }
+
+                    else {
+
+                        card.style.display =
+                            "none";
+
+                    }
 
                 }
             );
@@ -438,6 +549,7 @@ if (logoutBtn) {
             try {
 
                 await signOut(auth);
+
 
                 localStorage.removeItem(
                     "userRole"
