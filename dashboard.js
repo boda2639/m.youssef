@@ -1,21 +1,24 @@
-import { db, auth } from "./firebase.js";
+import {
+    db,
+    auth
+} from "./firebase.js";
+
 
 import {
     collection,
     getDocs
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 
 import {
     onAuthStateChanged,
     signOut
-}
-from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 
 
-// ==============================
-// عناصر الصفحة
-// ==============================
+// ==========================================
+// ELEMENTS
+// ==========================================
 
 const coursesContainer =
     document.getElementById("coursesContainer");
@@ -32,27 +35,37 @@ const coursesCount =
 const logoutBtn =
     document.getElementById("logoutBtn");
 
+const courseSearch =
+    document.getElementById("courseSearch");
 
-// ==============================
-// التأكد من تسجيل الدخول
-// ==============================
 
-onAuthStateChanged(auth, (user) => {
+// ==========================================
+// AUTH
+// ==========================================
 
-    if (!user) {
+onAuthStateChanged(
+    auth,
+    (user) => {
 
-        window.location.replace("login.html");
+        if (!user) {
 
-        return;
+            window.location.replace(
+                "/login"
+            );
+
+            return;
+        }
+
+
+        loadCourses();
+
     }
-
-    loadCourses();
-});
+);
 
 
-// ==============================
-// تحميل الكورسات من Firestore
-// ==============================
+// ==========================================
+// LOAD COURSES
+// ==========================================
 
 async function loadCourses() {
 
@@ -60,16 +73,21 @@ async function loadCourses() {
 
         const querySnapshot =
             await getDocs(
-                collection(db, "courses")
+                collection(
+                    db,
+                    "courses"
+                )
             );
 
 
-        loadingBox.style.display = "none";
+        loadingBox.style.display =
+            "none";
 
 
         if (querySnapshot.empty) {
 
-            emptyState.style.display = "block";
+            emptyState.style.display =
+                "block";
 
             coursesCount.textContent =
                 "لا توجد كورسات";
@@ -78,23 +96,30 @@ async function loadCourses() {
         }
 
 
-        coursesContainer.innerHTML = "";
+        coursesContainer.innerHTML =
+            "";
 
 
-        querySnapshot.forEach((doc) => {
+        querySnapshot.forEach(
+            (courseDocument) => {
 
-            const course = doc.data();
+                const course =
+                    courseDocument.data();
 
-            const card =
-                createCourseCard(
-                    doc.id,
-                    course
+
+                const card =
+                    createCourseCard(
+                        courseDocument.id,
+                        course
+                    );
+
+
+                coursesContainer.appendChild(
+                    card
                 );
 
-
-            coursesContainer.appendChild(card);
-
-        });
+            }
+        );
 
 
         coursesCount.textContent =
@@ -111,11 +136,13 @@ async function loadCourses() {
 
 
         loadingBox.innerHTML = `
+
             <i class="fa-solid fa-triangle-exclamation"></i>
 
             <span>
                 حدث خطأ أثناء تحميل الكورسات
             </span>
+
         `;
 
     }
@@ -123,9 +150,9 @@ async function loadCourses() {
 }
 
 
-// ==============================
-// إنشاء كارت الكورس
-// ==============================
+// ==========================================
+// CREATE COURSE CARD
+// ==========================================
 
 function createCourseCard(
     courseId,
@@ -133,48 +160,97 @@ function createCourseCard(
 ) {
 
     const card =
-        document.createElement("article");
+        document.createElement(
+            "article"
+        );
 
 
     card.className =
         "course-card";
 
 
-    // البيانات
+    // ======================================
+    // COURSE DATA
+    // ======================================
 
     const image =
+
         course.courseImage ||
+
         "https://images.unsplash.com/photo-1635070041078-e363dbe005cb";
 
+
     const subject =
+
         course.subject ||
+
         "الفيزياء";
 
+
     const title =
+
         course.courseName ||
+
         course.title ||
+
         "كورس بدون عنوان";
 
+
     const description =
+
         course.description ||
+
         "لا يوجد وصف لهذا الكورس حالياً.";
 
+
     const grade =
+
         course.grade ||
+
         "المرحلة الثانوية";
 
 
-    // حماية النصوص قبل وضعها في HTML
+    const price =
+
+        Number(
+            course.price ?? 0
+        );
+
+
+    // ======================================
+    // PRICE TEXT
+    // ======================================
+
+    const priceText =
+
+        price > 0
+
+            ? `${price.toLocaleString("ar-EG")} جنيه`
+
+            : "مجاني";
+
+
+    // ======================================
+    // CARD HTML
+    // ======================================
 
     card.innerHTML = `
 
         <div class="course-image">
 
+
             <img
+
                 src="${escapeHTML(image)}"
+
                 alt="${escapeHTML(title)}"
+
                 loading="lazy"
+
             >
+
+
+            <!-- SUBJECT -->
 
             <div class="subject-badge">
 
@@ -182,19 +258,44 @@ function createCourseCard(
 
             </div>
 
+
+            <!-- LOCK -->
+
+            <div class="course-lock">
+
+                <i class="fa-solid fa-lock"></i>
+
+            </div>
+
+
         </div>
 
 
         <div class="course-content">
 
 
-            <div class="course-grade">
+            <div class="course-top-row">
 
-                <i class="fa-solid fa-graduation-cap"></i>
 
-                <span>
-                    ${escapeHTML(grade)}
-                </span>
+                <div class="course-grade">
+
+                    <i class="fa-solid fa-graduation-cap"></i>
+
+                    <span>
+
+                        ${escapeHTML(grade)}
+
+                    </span>
+
+                </div>
+
+
+                <div class="course-price">
+
+                    ${escapeHTML(priceText)}
+
+                </div>
+
 
             </div>
 
@@ -213,9 +314,22 @@ function createCourseCard(
             </p>
 
 
+            <div class="locked-message">
+
+                <i class="fa-solid fa-lock"></i>
+
+                <span>
+
+                    الكورس مغلق حتى إتمام الشراء
+
+                </span>
+
+            </div>
+
+
             <button
                 class="course-button"
-                data-course-id="${courseId}"
+                data-course-id="${escapeHTML(courseId)}"
             >
 
                 عرض تفاصيل الكورس
@@ -230,7 +344,9 @@ function createCourseCard(
     `;
 
 
-    // زر فتح الكورس
+    // ======================================
+    // OPEN COURSE DETAILS
+    // ======================================
 
     const button =
         card.querySelector(
@@ -240,123 +356,158 @@ function createCourseCard(
 
     button.addEventListener(
         "click",
-
         () => {
 
             window.location.href =
-                `course.html?id=${courseId}`;
+                `/course?id=${encodeURIComponent(courseId)}`;
 
         }
     );
 
 
     return card;
+
 }
 
 
-// ==============================
-// تسجيل الخروج
-// ==============================
+// ==========================================
+// SEARCH
+// ==========================================
 
-logoutBtn.addEventListener(
-    "click",
+if (courseSearch) {
 
-    async () => {
+    courseSearch.addEventListener(
+        "input",
+        function () {
 
-        try {
+            const searchValue =
 
-            await signOut(auth);
+                this.value
 
+                    .trim()
 
-            localStorage.removeItem(
-                "userRole"
-            );
-
-
-            localStorage.removeItem(
-                "userName"
-            );
+                    .toLowerCase();
 
 
-            localStorage.removeItem(
-                "userUID"
-            );
+            const courseCards =
+
+                document.querySelectorAll(
+                    ".course-card"
+                );
 
 
-            localStorage.removeItem(
-                "userEmail"
-            );
+            courseCards.forEach(
+                (card) => {
+
+                    const cardText =
+
+                        card.textContent
+
+                            .toLowerCase();
 
 
-            window.location.replace(
-                "login.html"
+                    card.style.display =
+
+                        cardText.includes(
+                            searchValue
+                        )
+
+                            ? ""
+
+                            : "none";
+
+                }
             );
 
         }
+    );
 
-        catch (error) {
+}
 
-            console.error(
-                "خطأ في تسجيل الخروج:",
-                error
-            );
+
+// ==========================================
+// LOGOUT
+// ==========================================
+
+if (logoutBtn) {
+
+    logoutBtn.addEventListener(
+        "click",
+        async () => {
+
+            try {
+
+                await signOut(auth);
+
+                localStorage.removeItem(
+                    "userRole"
+                );
+
+                localStorage.removeItem(
+                    "userName"
+                );
+
+                localStorage.removeItem(
+                    "userUID"
+                );
+
+                localStorage.removeItem(
+                    "userEmail"
+                );
+
+
+                window.location.replace(
+                    "/login"
+                );
+
+            }
+
+            catch (error) {
+
+                console.error(
+                    "خطأ في تسجيل الخروج:",
+                    error
+                );
+
+            }
 
         }
+    );
 
-    }
-);
+}
 
 
-// ==============================
-// حماية النصوص
-// ==============================
+// ==========================================
+// ESCAPE HTML
+// ==========================================
 
 function escapeHTML(value) {
 
     return String(value)
 
-        .replaceAll("&", "&amp;")
+        .replaceAll(
+            "&",
+            "&amp;"
+        )
 
-        .replaceAll("<", "&lt;")
+        .replaceAll(
+            "<",
+            "&lt;"
+        )
 
-        .replaceAll(">", "&gt;")
+        .replaceAll(
+            ">",
+            "&gt;"
+        )
 
-        .replaceAll('"', "&quot;")
+        .replaceAll(
+            '"',
+            "&quot;"
+        )
 
-        .replaceAll("'", "&#039;");
+        .replaceAll(
+            "'",
+            "&#039;"
+        );
+
 }
-const courseSearch =
-    document.getElementById("courseSearch");
-
-
-courseSearch.addEventListener("input", function () {
-
-    const searchValue =
-        this.value
-            .trim()
-            .toLowerCase();
-
-
-    const courseCards =
-        document.querySelectorAll(".course-card");
-
-
-    courseCards.forEach(card => {
-
-        const cardText =
-            card.textContent.toLowerCase();
-
-
-        if (cardText.includes(searchValue)) {
-
-            card.style.display = "";
-
-        } else {
-
-            card.style.display = "none";
-
-        }
-
-    });
-
-});
