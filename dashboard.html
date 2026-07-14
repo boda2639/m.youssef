@@ -12,7 +12,6 @@
 
     <title>الكورسات | منصة مستر محمد يوسف</title>
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 
@@ -21,35 +20,27 @@
         rel="stylesheet"
     >
 
-    <!-- Font Awesome -->
     <link
         rel="stylesheet"
         href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
     >
-    <link
-    rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css"
->
 
-<link
-    rel="stylesheet"
-    href="navbar.css"
->
-
-    <!-- Dashboard CSS -->
+    <link rel="stylesheet" href="navbar.css">
     <link rel="stylesheet" href="dashboard.css">
 </head>
 
+
 <body>
+
+    <div class="background"></div>
+
     <div id="navbar-container"></div>
 
-    
 
+    <!-- SEARCH -->
 
+    <section class="courses-hero">
 
-
-
-        <!-- Search -->
         <div class="search-container">
 
             <i class="fa-solid fa-magnifying-glass"></i>
@@ -67,9 +58,8 @@
     </section>
 
 
-    <!-- =========================
-          COURSES SECTION
-    ========================== -->
+    <!-- COURSES -->
+
     <main
         class="courses-section"
         id="courses"
@@ -93,7 +83,6 @@
             <div
                 class="courses-count"
                 id="coursesCount"
-                aria-live="polite"
             >
                 جاري تحميل الكورسات...
             </div>
@@ -101,36 +90,45 @@
         </div>
 
 
-        <!-- Loading -->
+        <!-- LOADING -->
+
         <div
             class="loading-box"
             id="loadingBox"
-            aria-live="polite"
         >
+
             <div class="loading-icon">
+
                 <i class="fa-solid fa-spinner fa-spin"></i>
+
             </div>
 
             <span>
                 جاري تحميل الكورسات...
             </span>
+
         </div>
 
 
-        <!-- Courses From Firebase -->
+        <!-- COURSES -->
+
         <div
             class="courses-grid"
             id="coursesContainer"
         ></div>
 
 
-        <!-- Empty State -->
+        <!-- EMPTY -->
+
         <div
             class="empty-state"
             id="emptyState"
         >
+
             <div class="empty-icon">
+
                 <i class="fa-solid fa-book-open"></i>
+
             </div>
 
             <h3>
@@ -140,17 +138,19 @@
             <p>
                 سيتم إضافة الكورسات الجديدة قريبًا.
             </p>
+
         </div>
 
     </main>
 
 
-    <!-- JavaScript -->
     <script
         type="module"
         src="dashboard.js"
     ></script>
-<script src="navbar.js"></script>
+
+    <script src="navbar.js"></script>
+
 </body>
 
 </html>
