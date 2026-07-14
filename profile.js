@@ -11,13 +11,7 @@ import {
 
 import {
     doc,
-    getDoc,
-    collection,
-    query,
-    where,
-    getDocs,
-    limit,
-    Timestamp
+    getDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 
@@ -25,305 +19,269 @@ import {
 // HTML ELEMENTS
 // ==========================================
 
-const loadingBox = document.getElementById("loadingBox");
-const profileContent = document.getElementById("profileContent");
-const errorBox = document.getElementById("errorBox");
-const errorText = document.getElementById("errorText");
+const studentNameTop = document.getElementById("studentName");
+const studentGradeTop = document.getElementById("studentGrade");
 
-const studentName = document.getElementById("studentName");
-const studentEmail = document.getElementById("studentEmail");
-const studentPhone = document.getElementById("studentPhone");
-const studentGrade = document.getElementById("studentGrade");
-const studentCode = document.getElementById("studentCode");
-const studentUID = document.getElementById("studentUID");
-
-/* عناصر إضافية إن كانت موجودة في HTML */
-const studentSubject = document.getElementById("studentSubject");
-const registrationDate = document.getElementById("registrationDate");
-const lastLogin = document.getElementById("lastLogin");
+const nameElement = document.getElementById("name");
+const emailElement = document.getElementById("email");
+const phoneElement = document.getElementById("phone");
+const studentCodeElement = document.getElementById("studentCode");
+const gradeElement = document.getElementById("grade");
+const joinDateElement = document.getElementById("joinDate");
 
 const logoutBtn = document.getElementById("logoutBtn");
 
 
 // ==========================================
-// AUTH STATE
+// CHECK LOGIN + LOAD DATA
 // ==========================================
 
 onAuthStateChanged(auth, async (user) => {
 
+    // لو الطالب مش مسجل دخول
     if (!user) {
+
         window.location.replace("login.html");
+
         return;
     }
+
 
     try {
 
         // ==================================
-        // SEARCH FOR STUDENT DATA
+        // GET STUDENT FROM FIRESTORE
+        // students / USER UID
         // ==================================
 
-        const student = await findStudent(user);
-
-        console.log("بيانات الطالب من Firebase:", student);
-
-
-        // ==================================
-        // NAME
-        // ==================================
-
-        setText(
-            studentName,
-            student?.name ||
-            student?.fullName ||
-            student?.studentName ||
-            user.displayName ||
-            "طالب المنصة"
-        );
-
-
-        // ==================================
-        // EMAIL
-        // ==================================
-
-        setText(
-            studentEmail,
-            student?.email ||
-            student?.studentEmail ||
-            user.email ||
-            "غير مضاف"
-        );
-
-
-        // ==================================
-        // PHONE
-        // ==================================
-
-        setText(
-            studentPhone,
-            student?.phone ||
-            student?.phoneNumber ||
-            student?.studentPhone ||
-            student?.mobile ||
-            "غير مضاف"
-        );
-
-
-        // ==================================
-        // GRADE
-        // ==================================
-
-        setText(
-            studentGrade,
-            student?.grade ||
-            student?.studentGrade ||
-            student?.class ||
-            student?.gradeName ||
-            "غير مضاف"
-        );
-
-
-        // ==================================
-        // STUDENT CODE
-        // ==================================
-
-        setText(
-            studentCode,
-            student?.studentCode ||
-            student?.code ||
-            student?.studentId ||
-            student?.studentID ||
-            "غير مضاف"
-        );
-
-
-        // ==================================
-        // SUBJECT
-        // ==================================
-
-        setText(
-            studentSubject,
-            student?.subject ||
-            student?.courseSubject ||
-            "فيزياء"
-        );
-
-
-        // ==================================
-        // UID
-        // ==================================
-
-        setText(
-            studentUID,
+        const studentRef = doc(
+            db,
+            "students",
             user.uid
         );
 
-
-        // ==================================
-        // REGISTRATION DATE
-        // ==================================
-
-        setText(
-            registrationDate,
-            formatFirebaseDate(
-                student?.createdAt ||
-                student?.registrationDate ||
-                student?.createdDate ||
-                user.metadata?.creationTime
-            )
+        const studentSnapshot = await getDoc(
+            studentRef
         );
 
 
         // ==================================
-        // LAST LOGIN
+        // STUDENT FOUND
         // ==================================
 
-        setText(
-            lastLogin,
-            formatFirebaseDate(
-                user.metadata?.lastSignInTime
-            ) || "اليوم"
-        );
+        if (studentSnapshot.exists()) {
+
+            const student = studentSnapshot.data();
+
+            console.log(
+                "بيانات الطالب:",
+                student
+            );
+
+
+            // ==================================
+            // NAME
+            // ==================================
+
+            const studentName =
+                student.name ||
+                student.fullName ||
+                student.studentName ||
+                user.displayName ||
+                "طالب المنصة";
+
+
+            // ==================================
+            // EMAIL
+            // ==================================
+
+            const studentEmail =
+                student.email ||
+                user.email ||
+                "غير مضاف";
+
+
+            // ==================================
+            // PHONE
+            // ==================================
+
+            const studentPhone =
+                student.phone ||
+                student.phoneNumber ||
+                student.mobile ||
+                "غير مضاف";
+
+
+            // ==================================
+            // STUDENT CODE
+            // ==================================
+
+            const studentCode =
+                student.studentCode ||
+                student.code ||
+                student.studentId ||
+                "غير مضاف";
+
+
+            // ==================================
+            // GRADE
+            // ==================================
+
+            const studentGrade =
+                student.grade ||
+                student.studentGrade ||
+                student.class ||
+                "الصف الثالث الثانوي";
+
+
+            // ==================================
+            // JOIN DATE
+            // ==================================
+
+            const joinDate =
+                formatDate(
+                    student.createdAt ||
+                    student.joinDate ||
+                    student.registrationDate
+                );
+
+
+            // ==================================
+            // DISPLAY DATA
+            // ==================================
+
+            setText(
+                studentNameTop,
+                studentName
+            );
+
+            setText(
+                studentGradeTop,
+                studentGrade
+            );
+
+            setText(
+                nameElement,
+                studentName
+            );
+
+            setText(
+                emailElement,
+                studentEmail
+            );
+
+            setText(
+                phoneElement,
+                studentPhone
+            );
+
+            setText(
+                studentCodeElement,
+                studentCode
+            );
+
+            setText(
+                gradeElement,
+                studentGrade
+            );
+
+            setText(
+                joinDateElement,
+                joinDate
+            );
+
+        }
 
 
         // ==================================
-        // SHOW PROFILE
+        // STUDENT DOCUMENT NOT FOUND
         // ==================================
 
-        loadingBox?.classList.add("hidden");
-        errorBox?.classList.add("hidden");
-        profileContent?.classList.remove("hidden");
+        else {
+
+            console.warn(
+                "لم يتم العثور على الطالب في Firestore"
+            );
+
+            // نعرض بيانات Firebase Authentication
+            // المتاحة على الأقل
+
+            const fallbackName =
+                user.displayName ||
+                "طالب المنصة";
+
+            const fallbackEmail =
+                user.email ||
+                "غير مضاف";
+
+
+            setText(
+                studentNameTop,
+                fallbackName
+            );
+
+            setText(
+                studentGradeTop,
+                "الصف الثالث الثانوي"
+            );
+
+            setText(
+                nameElement,
+                fallbackName
+            );
+
+            setText(
+                emailElement,
+                fallbackEmail
+            );
+
+            setText(
+                phoneElement,
+                "غير مضاف"
+            );
+
+            setText(
+                studentCodeElement,
+                "غير مضاف"
+            );
+
+            setText(
+                gradeElement,
+                "الصف الثالث الثانوي"
+            );
+
+            setText(
+                joinDateElement,
+                formatDate(
+                    user.metadata.creationTime
+                )
+            );
+
+        }
 
     }
 
     catch (error) {
 
         console.error(
-            "خطأ أثناء تحميل بيانات الطالب:",
+            "حدث خطأ أثناء تحميل بيانات الطالب:",
             error
         );
 
-        showError(
-            "حدث خطأ أثناء تحميل بيانات حسابك."
+        alert(
+            "حدث خطأ أثناء تحميل بيانات الحساب"
         );
+
     }
 
 });
 
 
 // ==========================================
-// FIND STUDENT
+// FORMAT DATE
 // ==========================================
 
-async function findStudent(user) {
-
-    // --------------------------------------
-    // 1. SEARCH BY DOCUMENT ID = USER UID
-    // --------------------------------------
-
-    const directRef = doc(
-        db,
-        "students",
-        user.uid
-    );
-
-    const directSnapshot = await getDoc(directRef);
-
-    if (directSnapshot.exists()) {
-
-        return {
-            id: directSnapshot.id,
-            ...directSnapshot.data()
-        };
-
-    }
-
-
-    // --------------------------------------
-    // 2. SEARCH BY uid FIELD
-    // --------------------------------------
-
-    const uidQuery = query(
-        collection(db, "students"),
-        where("uid", "==", user.uid),
-        limit(1)
-    );
-
-    const uidSnapshot = await getDocs(uidQuery);
-
-    if (!uidSnapshot.empty) {
-
-        const studentDoc = uidSnapshot.docs[0];
-
-        return {
-            id: studentDoc.id,
-            ...studentDoc.data()
-        };
-
-    }
-
-
-    // --------------------------------------
-    // 3. SEARCH BY userId FIELD
-    // --------------------------------------
-
-    const userIdQuery = query(
-        collection(db, "students"),
-        where("userId", "==", user.uid),
-        limit(1)
-    );
-
-    const userIdSnapshot = await getDocs(userIdQuery);
-
-    if (!userIdSnapshot.empty) {
-
-        const studentDoc = userIdSnapshot.docs[0];
-
-        return {
-            id: studentDoc.id,
-            ...studentDoc.data()
-        };
-
-    }
-
-
-    // --------------------------------------
-    // 4. SEARCH BY EMAIL
-    // --------------------------------------
-
-    if (user.email) {
-
-        const emailQuery = query(
-            collection(db, "students"),
-            where("email", "==", user.email),
-            limit(1)
-        );
-
-        const emailSnapshot = await getDocs(emailQuery);
-
-        if (!emailSnapshot.empty) {
-
-            const studentDoc = emailSnapshot.docs[0];
-
-            return {
-                id: studentDoc.id,
-                ...studentDoc.data()
-            };
-
-        }
-
-    }
-
-
-    // NO STUDENT DOCUMENT
-    return null;
-}
-
-
-// ==========================================
-// FORMAT FIREBASE DATE
-// ==========================================
-
-function formatFirebaseDate(value) {
+function formatDate(value) {
 
     if (!value) {
         return "غير معروف";
@@ -336,22 +294,14 @@ function formatFirebaseDate(value) {
 
         // Firestore Timestamp
         if (
-            value instanceof Timestamp ||
-            typeof value?.toDate === "function"
+            typeof value.toDate === "function"
         ) {
 
             date = value.toDate();
 
         }
 
-        // JavaScript Date
-        else if (value instanceof Date) {
-
-            date = value;
-
-        }
-
-        // String date
+        // Normal Date / String
         else {
 
             date = new Date(value);
@@ -359,8 +309,12 @@ function formatFirebaseDate(value) {
         }
 
 
-        if (isNaN(date.getTime())) {
+        if (
+            isNaN(date.getTime())
+        ) {
+
             return "غير معروف";
+
         }
 
 
@@ -377,19 +331,15 @@ function formatFirebaseDate(value) {
 
     catch (error) {
 
-        console.error(
-            "خطأ في تحويل التاريخ:",
-            error
-        );
-
         return "غير معروف";
+
     }
 
 }
 
 
 // ==========================================
-// SET TEXT
+// SET TEXT SAFELY
 // ==========================================
 
 function setText(element, value) {
@@ -399,29 +349,8 @@ function setText(element, value) {
     }
 
     element.textContent =
-        value !== undefined &&
-        value !== null &&
-        value !== ""
-            ? value
-            : "غير مضاف";
-}
+        value || "غير مضاف";
 
-
-// ==========================================
-// SHOW ERROR
-// ==========================================
-
-function showError(message) {
-
-    loadingBox?.classList.add("hidden");
-
-    profileContent?.classList.add("hidden");
-
-    errorBox?.classList.remove("hidden");
-
-    if (errorText) {
-        errorText.textContent = message;
-    }
 }
 
 
@@ -439,10 +368,7 @@ if (logoutBtn) {
 
                 await signOut(auth);
 
-                localStorage.removeItem("userRole");
-                localStorage.removeItem("userName");
-                localStorage.removeItem("userUID");
-                localStorage.removeItem("userEmail");
+                localStorage.clear();
 
                 window.location.replace(
                     "login.html"
@@ -458,9 +384,12 @@ if (logoutBtn) {
                 );
 
                 alert(
-                    "حدث خطأ أثناء تسجيل الخروج."
+                    "حدث خطأ أثناء تسجيل الخروج"
                 );
+
             }
+
         }
     );
+
 }
