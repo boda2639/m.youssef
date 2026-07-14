@@ -29,73 +29,38 @@
     >
 
     <!-- CSS -->
-    <link rel="stylesheet"
-          href="courses.css">
-          
-
+    <link rel="stylesheet" href="courses.css">
 </head>
 
 
 <body>
 
-
-    <!-- ==============================
-                BACKGROUND
-    =============================== -->
-
+    <!-- BACKGROUND -->
     <div class="background"></div>
 
 
-    <!-- ==============================
-                  HEADER
-    =============================== -->
-
+    <!-- HEADER -->
     <header class="header">
 
-
-        <a href="index.html"
-           class="logo">
-
+        <a href="index.html" class="logo">
             <i class="fa-solid fa-atom"></i>
-
-            <span>
-                M.YOUSSEF
-            </span>
-
+            <span>M.YOUSSEF</span>
         </a>
 
-
-        <a href="dashboard.html"
-           class="back-btn">
-
+        <a href="dashboard.html" class="back-btn">
             <i class="fa-solid fa-arrow-right"></i>
-
-            <span>
-                رجوع
-            </span>
-
+            <span>رجوع</span>
         </a>
-
 
     </header>
 
 
-
-    <!-- ==============================
-                MAIN PAGE
-    =============================== -->
-
+    <!-- MAIN PAGE -->
     <main class="course-page">
 
 
-        <!-- ==========================
-                  LOADING
-        =========================== -->
-
-        <div
-            id="loadingBox"
-            class="loading-box"
-        >
+        <!-- LOADING -->
+        <div id="loadingBox" class="loading-box">
 
             <div class="loader"></div>
 
@@ -106,32 +71,20 @@
         </div>
 
 
-
-        <!-- ==========================
-                 ERROR BOX
-        =========================== -->
-
-        <div
-            id="errorBox"
-            class="error-box hidden"
-        >
+        <!-- ERROR BOX -->
+        <div id="errorBox" class="error-box hidden">
 
             <div class="error-icon">
-
                 <i class="fa-solid fa-triangle-exclamation"></i>
-
             </div>
-
 
             <h2>
                 تعذر تحميل الكورس
             </h2>
 
-
             <p id="errorText">
                 حدث خطأ أثناء تحميل بيانات الكورس.
             </p>
-
 
             <a href="dashboard.html">
 
@@ -144,70 +97,46 @@
         </div>
 
 
-
-        <!-- ==========================
-               COURSE CONTENT
-        =========================== -->
-
-        <div
-            id="courseContent"
-            class="course-content hidden"
-        >
+        <!-- COURSE CONTENT -->
+        <div id="courseContent"
+             class="course-content hidden">
 
 
-            <!-- ======================
-                   COURSE HEADER
-            ======================= -->
-
+            <!-- COURSE HEADER -->
             <section class="course-header-section">
 
+                <div class="course-title-row">
 
-                <div class="course-status">
+                    <!-- COURSE TITLE -->
+                    <h1 id="courseTitle">
+                        اسم الكورس
+                    </h1>
 
-                    <i class="fa-solid fa-circle-check"></i>
-
-                    
+                    <!-- VERIFIED ICON -->
+                    <div class="course-status">
+                        <i class="fa-solid fa-circle-check"></i>
+                    </div>
 
                 </div>
 
 
-                <h1 id="courseTitle">
-
-                    اسم الكورس
-
-                </h1>
-
-
                 <p id="courseDescription">
-
                     شاهد فيديوهات الكورس وحمّل ملفات الشرح.
-
                 </p>
-
 
             </section>
 
 
-
-            <!-- ======================
-                     VIDEOS
-            ======================= -->
-
+            <!-- VIDEOS -->
             <section class="content-section">
-
 
                 <div class="section-header">
 
-
                     <div class="section-info">
 
-
                         <div class="section-icon video-section-icon">
-
                             <i class="fa-solid fa-video"></i>
-
                         </div>
-
 
                         <div>
 
@@ -216,32 +145,24 @@
                             </h2>
 
                             <span id="videosCount">
-
                                 0 فيديو متاح
-
                             </span>
 
                         </div>
 
-
                     </div>
-
 
                 </div>
 
 
-
                 <!-- VIDEOS CONTAINER -->
-
                 <div
                     id="videosContainer"
                     class="items-grid"
                 ></div>
 
 
-
                 <!-- NO VIDEOS -->
-
                 <div
                     id="noVideos"
                     class="empty-content hidden"
@@ -255,30 +176,19 @@
 
                 </div>
 
-
             </section>
 
 
-
-            <!-- ======================
-                     PDF FILES
-            ======================= -->
-
+            <!-- PDF FILES -->
             <section class="content-section">
-
 
                 <div class="section-header">
 
-
                     <div class="section-info">
 
-
                         <div class="section-icon file-section-icon">
-
                             <i class="fa-solid fa-file-lines"></i>
-
                         </div>
-
 
                         <div>
 
@@ -287,32 +197,24 @@
                             </h2>
 
                             <span id="filesCount">
-
                                 0 ملف متاح
-
                             </span>
 
                         </div>
 
-
                     </div>
-
 
                 </div>
 
 
-
                 <!-- FILES CONTAINER -->
-
                 <div
                     id="filesContainer"
                     class="items-grid files-grid"
                 ></div>
 
 
-
                 <!-- NO FILES -->
-
                 <div
                     id="noFiles"
                     class="empty-content hidden"
@@ -326,26 +228,18 @@
 
                 </div>
 
-
             </section>
 
-
         </div>
-
 
     </main>
 
 
-
-    <!-- ==============================
-                 JAVASCRIPT
-    =============================== -->
-
+    <!-- JAVASCRIPT -->
     <script
         type="module"
         src="courses.js"
     ></script>
-
 
 </body>
 
