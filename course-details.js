@@ -1,7 +1,29 @@
+import {
+    auth,
+    db
+} from "./firebase.js";
+
+import {
+    onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+
+import {
+    doc,
+    getDoc
+} from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+
 // ==========================================
-// COURSE DETAILS - VIDEO PLAYER
+// STUDENT WATERMARK
 // ==========================================
 
+const studentWatermark =
+    document.getElementById(
+        "studentWatermark"
+    );
+
+let watermarkInterval = null;
+
+let studentCode = "";
 
 // ==========================================
 // GET URL PARAMETERS
@@ -1704,6 +1726,143 @@ function showError(message) {
 
 }
 
+// ==========================================
+// LOAD STUDENT CODE
+// ==========================================
+
+async function loadStudentWatermark() {
+
+    try {
+
+        const user = auth.currentUser;
+
+        if (!user) return;
+
+        const snap =
+            await getDoc(
+                doc(
+                    db,
+                    "students",
+                    user.uid
+                )
+            );
+
+        if (!snap.exists()) return;
+
+        studentCode =
+            snap.data().studentCode || "";
+
+        studentWatermark.innerHTML =
+            `M.YOUSSEF • ${studentCode}`;
+
+        startWatermark();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            error
+        );
+
+    }
+
+}
+
+
+// ==========================================
+// START WATERMARK
+// ==========================================
+
+function startWatermark() {
+
+    if (!studentWatermark) return;
+
+    moveWatermark();
+
+    clearInterval(
+        watermarkInterval
+    );
+
+    watermarkInterval =
+        setInterval(
+
+            moveWatermark,
+
+            2000
+
+        );
+
+}
+
+
+// ==========================================
+// MOVE WATERMARK
+// ==========================================
+
+function moveWatermark() {
+
+    const maxX =
+        videoWrapper.clientWidth -
+        220;
+
+    const maxY =
+        videoWrapper.clientHeight -
+        60;
+
+    studentWatermark.style.left =
+        Math.random() * maxX + "px";
+
+    studentWatermark.style.top =
+        Math.random() * maxY + "px";
+
+    studentWatermark.style.opacity =
+        0.18 + Math.random() * 0.25;
+
+    studentWatermark.style.transform =
+        `rotate(${Math.floor(Math.random()*30)-15}deg)`;
+
+}
+
+
+// ==========================================
+// START AFTER LOGIN
+// ==========================================
+
+onAuthStateChanged(
+
+    auth,
+
+    async(user)=>{
+
+        if(!user) return;
+
+        await loadStudentWatermark();
+
+    }
+
+);
+
+
+// ==========================================
+// CLEANUP
+// ==========================================
+
+window.addEventListener(
+
+    "beforeunload",
+
+    ()=>{
+
+        clearInterval(
+
+            watermarkInterval
+
+        );
+
+    }
+
+);
 
 // ==========================================
 // INITIAL UI
