@@ -1458,3 +1458,34 @@ button {
     }
 
 }
+#studentWatermark{
+
+position:absolute;
+
+z-index:99999;
+
+left:20px;
+
+top:20px;
+
+font-size:22px;
+
+font-weight:bold;
+
+color:white;
+
+opacity:.25;
+
+pointer-events:none;
+
+user-select:none;
+
+transition:all 1.5s linear;
+
+text-shadow:
+0 0 5px black,
+0 0 10px black;
+
+white-space:nowrap;
+
+}
